@@ -1,26 +1,20 @@
-from xml.dom import minidom, minicompat
-import xml
+from flask import Flask
+from src.XMLDocument import XMLDocument
 
-class XMLDocument:
-    def __init__(self):
-        self._doc = None
-
-    def read(self, file_path: str):
-        self._doc = minidom.parse(file_path)
-
-    def get_element_from_tag_name(self, tag_name: str) -> xml.dom.minicompat.NodeList:
-        return self._doc.getELementsByTagName(tag_name)
-
-    def get_attribute_from_tag_name(self, attribute_name: str, tag_name: str) -> str:
-        return self.get_element_from_tag_name(tag_name)[attribute_name].value
-
-    def get_nth_attribute_from_tag_name(self, n: int, tag_name: str) -> str:
-        return self.get_element_from_tag_name(tag_name)[n].value
-
-    def get_data_from_tag_name(self, tag_name: str) -> str:
-        return self.get_element_from_tag_name(tag_name).childNodes[0].data
+app = Flask(__name__)
 
 
+@app.route('/')
+def hello_world():
+    return 'Hello world!'
 
-if __name__ == "__main__":
 
+if __name__ == '__main__':
+    #app.run()
+    print("Hello world!")
+
+    obj = XMLDocument()
+
+    obj.open("sample.xml")
+    #obj.add_element("items", "item2", "item3abc", {"name": "item3"})
+    obj.save()
