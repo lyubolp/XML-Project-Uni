@@ -11,10 +11,9 @@ def hello_world():
 
 if __name__ == '__main__':
     #app.run()
-    print("Hello world!")
 
     obj = XMLDocument()
 
     obj.open("sample.xml")
-    #obj.add_element("items", "item2", "item3abc", {"name": "item3"})
+    print(obj.get_elements("item")[1].attrib)
     obj.save()

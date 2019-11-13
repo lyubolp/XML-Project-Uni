@@ -1,9 +1,5 @@
 import xml.etree.ElementTree as ET
 
-'''
-    @TODO - add methods that accept an ET.Element as an argument
-'''
-
 class XMLDocument:
     def __init__(self):
         self._doc = None
