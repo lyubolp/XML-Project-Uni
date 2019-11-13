@@ -1,7 +1,7 @@
 <data>
     <items>
-        <item name="item1">item1abc</item>
-        <item name="item2">item2abc</item>
-        <item2 name="item3">item3abc</item2>
+        <item name="item1">item2abc</item>
+        <item2 id="7" name="item2">This is different</item2>
+        <item3 name="item3" />
     </items>
 </data>
