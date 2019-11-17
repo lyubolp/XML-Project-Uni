@@ -10,6 +10,11 @@ class XMLDocument:
         self._root = self._doc.getroot()
         self._path = file_path
 
+    def open_from_string(self, xml_string: str):
+        self._doc = ET.fromstring(xml_string)
+        self._root = ET.fromstring(xml_string)
+        self._path = "temp.xml"
+
     def save(self):
         data = ET.tostring(self._root).decode("utf-8")
         file = open(self._path, "w")
