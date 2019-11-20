@@ -12,7 +12,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run()
+    #app.run()
 
     get_wiki_content = WikiAPI()
-    print(get_wiki_content.get_page_header_text("Ivan Vazov"))
+    [print(item[1]) for item in get_wiki_content.get_page_text("Ivan Vazov").content]
