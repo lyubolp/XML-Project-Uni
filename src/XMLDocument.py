@@ -51,6 +51,9 @@ class XMLDocument:
     def get_content(self, tag: str) -> str:
         return self.get_first_element(tag).text
 
+    def get_root(self) -> ET.Element:
+        return self._root
+
     def remove_element(self, tag: str):
         parent_of_element = self._root.find(".//" + tag + "/..")
         parent_of_element.remove(self.get_first_element(tag))
