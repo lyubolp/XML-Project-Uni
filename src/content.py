@@ -1,4 +1,7 @@
 """
+:version: 1.0
+:author Lyuboslav Karev
+
     Contains two classes - ContentType and Content
     Content - The class used to wrap different types of content to be put in the XML
     ContentType - The class used to express the type of content inside the main class
@@ -6,7 +9,7 @@
 
 from typing import Tuple, List
 from enum import Enum
-from src.Image import Image
+from src.image import Image
 
 
 class ContentType(Enum):
@@ -27,7 +30,7 @@ class Content:
             Each tuple contains a ContentType and an object.
                 ContentType can be TITLE, TEXT, IMAGE
                 object can be str (representing title or text), or Image object for images
-                    (check Image.py)
+                    (check image.py)
 
     """
     def __init__(self):
@@ -52,7 +55,7 @@ class Content:
     def add_image(self, img: Image):
         """
         Adds an Image object to the content, representing an image from the Wikipedia article
-        :param img: the Image object (see Image.py) for documentation
+        :param img: the Image object (see image.py) for documentation
         :return: None
         """
         self.content.append((ContentType.IMAGE, img))

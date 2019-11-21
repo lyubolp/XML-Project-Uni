@@ -1,6 +1,6 @@
 from flask import Flask
-from src.XMLDocument import XMLDocument
-from src.WikiAPI import WikiAPI
+from src.xml_document import XMLDocument
+from src.wiki_api import WikiAPI
 
 app = Flask(__name__)
 
@@ -14,5 +14,8 @@ def hello_world():
 if __name__ == '__main__':
     #app.run()
 
-    get_wiki_content = WikiAPI()
-    [print(item[1]) for item in get_wiki_content.get_page_text("Ivan Vazov").content]
+    #get_wiki_content = WikiAPI()
+    #[print(item[1]) for item in get_wiki_content.get_page_text("Ivan Vazov").content]
+
+    parser = XMLDocument()
+    parser.open("../alabala.txt")
