@@ -30,7 +30,7 @@ class DTDAttributeType(IntEnum):
     xml = 11
 
 
-def convert_dtd_attribute_typefrom_string(attribute_type: str) -> DTDAttributeType:
+def convert_dtd_attribute_type_from_string(attribute_type: str) -> DTDAttributeType:
     return DTDAttributeType[attribute_type]
 
 
@@ -56,7 +56,7 @@ class DTDAttribute:
         if isinstance(attribute_type, DTDAttributeType):
             self.attribute_type = attribute_type
         else:
-            self.attribute_type = convert_dtd_attribute_typefrom_string(attribute_type)
+            self.attribute_type = convert_dtd_attribute_type_from_string(attribute_type)
 
     def set_value_type(self, value_type: DTDAttributeValueType):
         self.value_type = value_type
@@ -98,7 +98,7 @@ class DTDAttribute:
         print("Value Type: " + self.value_type.name)
         print("Value: " + self.value)
         if self.attribute_type == DTDAttributeType.Enumerated:
-            print("Enumerated values: ", end='')
+            print("Enumerated values")
             print(self.enumerated_values)
             print("Default value: " + self.enumerated_default_value)
         print()
