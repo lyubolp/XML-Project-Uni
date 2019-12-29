@@ -10,11 +10,11 @@ class TestDTDParserReadFileContent(unittest.TestCase):
     def test_file_not_found(self):
         self.assertRaises(FileNotFoundError, DTDParser, self.dataPath / '.file_does_not_exist_gibberish.dtd.')
 
-    def test_0(self):
-        parser = DTDParser(self.dataPath / '0.dtd')
+    def test_1element(self):
+        parser = DTDParser(self.dataPath / '1element.dtd')
         self.assertEqual(parser._content.strip(), "<!ELEMENT note (#PCDATA)>")
 
-    def test_1(self):
+    def test_2nested_elements(self):
         parser = DTDParser()
-        parser.load(self.dataPath / '1.dtd')
+        parser.load(self.dataPath / '2nested_elements.dtd')
         self.assertEqual(parser._content.strip(), "<!ELEMENT note (heading)>\n<!ELEMENT heading (#PCDATA)>")
