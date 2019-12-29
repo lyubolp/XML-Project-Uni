@@ -179,6 +179,7 @@ class DTDParser:
                     attribute.value_type = DTDAttributeValueType.VALUE
                     attribute.value = list(filter(None, re.split(r'[>]+', token_after_type)))[0].strip('"')
 
+
         if element_name not in self.attributes.keys():
             self.attributes[element_name] = []
         self.attributes[element_name].append(attribute)
