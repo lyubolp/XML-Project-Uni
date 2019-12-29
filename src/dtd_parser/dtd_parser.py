@@ -64,7 +64,7 @@ class DTDParser:
         """
         for i in self.attributes.keys():
             for k in self.attributes[i]:
-                k.print()
+                k._debug_print()
 
     def _debug_print_elements(self) -> None:
         """
@@ -149,35 +149,36 @@ class DTDParser:
 
         split_element_name = _split_on_whitespace(token, 2)[1:]
         element_name = split_element_name[0]
-        attribute.set_element_name(element_name)
+        attribute.element_name = element_name
         split_attribute_name = _split_on_whitespace(split_element_name[1], 1)
-        attribute.set_name(split_attribute_name[0])
+        attribute.attribute_name = split_attribute_name[0]
         token_after_attribute_name = split_attribute_name[1]
 
         if token_after_attribute_name.startswith('('):
             # Enumerated attribute
             split_all = list(filter(None, re.split(r'[)(>|]+', token_after_attribute_name)))
-            attribute.set_type(DTDAttributeType.Enumerated)
-            attribute.set_value_type(DTDAttributeValueType.VALUE)
-            attribute.set_enumerated_default_value(split_all[-1].strip('" '))
-            attribute.set_enumerated_values([value.strip('" ') for value in split_all[:-1]])
+            attribute.attribute_type = DTDAttributeType.Enumerated
+            attribute.value_type = DTDAttributeValueType.VALUE
+            attribute.enumerated_default_value = split_all[-1].strip('" ')
+            attribute.enumerated_values = [value.strip('" ') for value in split_all[:-1]]
         else:
             # Non-enumerated attribute
             split_type = _split_on_whitespace(token_after_attribute_name, 1)
-            attribute.set_type(split_type[0])
+            attribute.attribute_type = convert_dtd_attribute_type_from_string(split_type[0])
             token_after_type = split_type[1]
             if token_after_type.startswith('#FIXED'):
                 # Fixed attribute
-                attribute.set_value_type(DTDAttributeValueType.FIXED)
-                attribute.set_value(list(filter(None, re.split(r'[\s>]+', token_after_type)))[1].strip('"'))
+                attribute.value_type = DTDAttributeValueType.FIXED
+                attribute.value = list(filter(None, re.split(r'[\s>]+', token_after_type)))[1].strip('"')
             else:
                 if token_after_type.startswith("#REQUIRED"):
-                    attribute.set_value_type(DTDAttributeValueType.REQUIRED)
+                    attribute.value_type = DTDAttributeValueType.REQUIRED
                 elif token_after_type.startswith("#IMPLIED"):
-                    attribute.set_value_type(DTDAttributeValueType.IMPLIED)
+                    attribute.value_type = DTDAttributeValueType.IMPLIED
                 else:  # Default Value
-                    attribute.set_value_type(DTDAttributeValueType.VALUE)
-                    attribute.set_value(list(filter(None, re.split(r'[>]+', token_after_type)))[0].strip('"'))
+                    attribute.value_type = DTDAttributeValueType.VALUE
+                    attribute.value = list(filter(None, re.split(r'[>]+', token_after_type)))[0].strip('"')
+
 
         if element_name not in self.attributes.keys():
             self.attributes[element_name] = []
