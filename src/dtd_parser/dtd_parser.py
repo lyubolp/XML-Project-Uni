@@ -7,6 +7,7 @@ DTD_ATTRIBUTE_TAG_BEGINNING = "<!ATTLIST"
 
 
 def _get_token_children(token: str):
+
     splitter = r'[\s,)(]'
     return list(filter(None, re.split(splitter, token)[2:-1]))
 
@@ -178,7 +179,6 @@ class DTDParser:
                 else:  # Default Value
                     attribute.value_type = DTDAttributeValueType.VALUE
                     attribute.value = list(filter(None, re.split(r'[>]+', token_after_type)))[0].strip('"')
-
 
         if element_name not in self.attributes.keys():
             self.attributes[element_name] = []

@@ -7,9 +7,6 @@ class TestDTDParserReadFileContent(unittest.TestCase):
     def setUp(self) -> None:
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
-    def test_file_not_found(self):
-        self.assertRaises(FileNotFoundError, DTDParser, self.dataPath / '.file_does_not_exist_gibberish.dtd.')
-
     def test_1element(self):
         parser = DTDParser(self.dataPath / '1element.dtd')
         self.assertEqual(parser._content.strip(), "<!ELEMENT note (#PCDATA)>")
@@ -18,3 +15,8 @@ class TestDTDParserReadFileContent(unittest.TestCase):
         parser = DTDParser()
         parser.load(self.dataPath / '2nested_elements.dtd')
         self.assertEqual(parser._content.strip(), "<!ELEMENT note (heading)>\n<!ELEMENT heading (#PCDATA)>")
+
+    def test_1element_1attribute(self):
+        parser = DTDParser()
+        parser.load(self.dataPath / '1element_1attribute.dtd')
+        self.assertEqual(parser._content.strip(), "<!ELEMENT square EMPTY>\n<!ATTLIST square width CDATA \"0\">")
