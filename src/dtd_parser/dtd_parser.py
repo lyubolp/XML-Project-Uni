@@ -18,11 +18,22 @@ def _get_token_children(token: str):
 
 
 def _get_token_name(token: str) -> str:
+    """
+    Get the first element of a token separated by white space on both sides
+    :param token: string representing DTD element or attribute, e.g. <!ELEMENT ...>
+    :return: element-name split from a DTD token
+    """
     splitter = r'\s+'
     return list(filter(None, re.split(splitter, token, 2)[1:-1]))[0]
 
 
 def _split_on_whitespace(token: str, splits: int) -> list:
+    """
+    Split a token (string) on white space a number of times
+    :param token: the string to split on whitespace
+    :param splits: how many splits to do
+    :return: list of split substrings from the token
+    """
     splitter = r'\s+'
     return list(re.split(splitter, token, splits))
 
