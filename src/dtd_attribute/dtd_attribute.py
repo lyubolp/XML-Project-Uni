@@ -35,65 +35,27 @@ def convert_dtd_attribute_type_from_string(attribute_type: str) -> DTDAttributeT
 
 
 class DTDAttribute:
+    """
+    DTDAttribute represents a DTD attribute as per specification.
+    The meaning of each field can be found on the following link:
+    https://www.w3schools.com/xml/xml_dtd_attributes.asp
+    Exception is the field self.value_type which is attribute-value according
+    to the specification. The actual value, if such exists is stored in self.value
+    """
     def __init__(self, element_name: str = "", attribute_name: str = "",
                  attribute_type: DTDAttributeType = DTDAttributeType.NONE,
                  value_type: DTDAttributeValueType = DTDAttributeValueType.NONE, value: str = ""):
         self.element_name = element_name
-        self.name = attribute_name
+        self.attribute_name = attribute_name
         self.attribute_type = attribute_type
         self.value_type = value_type
         self.value = value
         self.enumerated_values = []
         self.enumerated_default_value = ""
 
-    def set_element_name(self, element_name: str):
-        self.element_name = element_name
-
-    def set_name(self, name: str):
-        self.name = name
-
-    def set_type(self, attribute_type):
-        if isinstance(attribute_type, DTDAttributeType):
-            self.attribute_type = attribute_type
-        else:
-            self.attribute_type = convert_dtd_attribute_type_from_string(attribute_type)
-
-    def set_value_type(self, value_type: DTDAttributeValueType):
-        self.value_type = value_type
-
-    def set_value(self, value: str):
-        self.value = value
-
-    def set_enumerated_values(self, enumerated_values: list):
-        self.enumerated_values = enumerated_values
-
-    def set_enumerated_default_value(self, enumerated_default_value: str):
-        self.enumerated_default_value = enumerated_default_value
-
-    def get_element_name(self):
-        return self.element_name
-
-    def get_name(self):
-        return self.name
-
-    def get_attribute_type(self):
-        return self.attribute_type
-
-    def get_value_type(self):
-        return self.value_type
-
-    def get_value(self):
-        return self.value
-
-    def get_enumerated_values(self):
-        return self.enumerated_values
-
-    def get_enumerated_default_value(self):
-        return self.enumerated_default_value
-
-    def print(self):
+    def _debug_print(self):
         print("Element: " + self.element_name)
-        print("Attribute: " + self.name)
+        print("Attribute: " + self.attribute_name)
         print("Attribute Type: " + self.attribute_type.name)
         print("Value Type: " + self.value_type.name)
         print("Value: " + self.value)
