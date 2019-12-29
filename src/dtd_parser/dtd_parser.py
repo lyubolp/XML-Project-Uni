@@ -7,7 +7,12 @@ DTD_ATTRIBUTE_TAG_BEGINNING = "<!ATTLIST"
 
 
 def _get_token_children(token: str):
-
+    """
+    Parse the child elements of a DTD element.
+    Child elements are after the second whitespace
+    :param token: string representing DTD element, e.g. <!ELEMENT ...>
+    :return: list of all children of a DTD element
+    """
     splitter = r'[\s,)(]'
     return list(filter(None, re.split(splitter, token)[2:-1]))
 
