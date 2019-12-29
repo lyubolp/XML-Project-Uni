@@ -10,4 +10,4 @@ class TestDTDParserTokenizeContent(unittest.TestCase):
     def test_3(self):
         parser = DTDParser()
         parser.load(self.dataPath / '3.dtd')
-        self.assertEqual(len(parser.tokens), 7)
+        self.assertEqual(len(parser._tokens), 7)
