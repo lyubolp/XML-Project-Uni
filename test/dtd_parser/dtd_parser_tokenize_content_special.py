@@ -9,15 +9,15 @@ class TestDTDParserTokenizeContent(unittest.TestCase):
 
     def test_empty_file(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'empty.dtd')
+        self.assertRaises(ValueError, parser.load, self.dataPath / 'empty_file.dtd')
         self.assertEqual(len(parser._tokens), 0)
         self.assertEqual(parser._content, "")
 
     def test_not_dtd_file(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'not_dtd.txt')
+        self.assertRaises(ValueError, parser.load, self.dataPath / 'dtd_mixed_with_text.txt')
         self.assertEqual(len(parser._tokens), 0)
 
     def test_invalid_tags(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'invalid_tags.dtd')
+        self.assertRaises(ValueError, parser.load, self.dataPath / 'non_dtd_tags.dtd')
