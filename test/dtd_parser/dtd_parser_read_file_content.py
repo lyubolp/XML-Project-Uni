@@ -12,9 +12,9 @@ class TestDTDParserReadFileContent(unittest.TestCase):
 
     def test_0(self):
         parser = DTDParser(self.dataPath / '0.dtd')
-        self.assertEqual(parser.content.strip(), "<!ELEMENT note (#PCDATA)>")
+        self.assertEqual(parser._content.strip(), "<!ELEMENT note (#PCDATA)>")
 
     def test_1(self):
         parser = DTDParser()
         parser.load(self.dataPath / '1.dtd')
-        self.assertEqual(parser.content.strip(), "<!ELEMENT note (heading)>\n<!ELEMENT heading (#PCDATA)>")
+        self.assertEqual(parser._content.strip(), "<!ELEMENT note (heading)>\n<!ELEMENT heading (#PCDATA)>")
