@@ -32,6 +32,7 @@ class DTDParser:
     def __init__(self, path=None):
         self._path = path
         self._content = ""
+        self._parents_count = dict()
         self._tokens = dict()
         self.attributes = dict()
         self.elements = dict()
@@ -115,6 +116,10 @@ class DTDParser:
             else:
                 raise ValueError("The content of file {} is invalid. Invalid token found: {}".format(self._path, token))
 
+    def _add_element_to_parents_count(self, element_name: str):
+        if element_name not in self._parents_count.keys():
+            self._parents_count[element_name] = 0
+
     def _add_element(self, token: str) -> None:
         """
         Parse a string, which is a DTD element, into a key-value pair
@@ -122,9 +127,10 @@ class DTDParser:
             value: child elements of this element
         :param token: string representing DTD element, e.g. <!ELEMENT ...>
         """
-        name = _get_token_name(token)
+        element_name = _get_token_name(token)
+        self._add_element_to_parents_count(element_name)
         children = self._get_token_children(token)
-        self.elements[name] = children
+        self.elements[element_name] = children
 
     def _add_attribute(self, token: str) -> None:
         """
@@ -233,10 +239,18 @@ class DTDParser:
                 current_element = parents[-1]
                 parents.pop(-1)
             else:
+                self._add_element_to_parents_count(child_token)
+                self._parents_count[child_token] += 1
                 new_child = DTDElement(child_token)
                 current_element.sub_elements.append(new_child)
 
         return root
+
+    def get_root(self) -> str:
+        for x in self._parents_count.keys():
+            if self._parents_count[x] == 0:
+                return x
+        return None
 
         # def _debug_print_attributes(self) -> None:
         #     """
