@@ -26,4 +26,5 @@ class DTDElement:
     # def _debug_print(self):
     #     print("Element: " + self.element_name)
     #     print("Occurrences: " + self.occurrences.name)
+    #     print("Sub elements:" + str(len(self.sub_elements)))
     #     print()
