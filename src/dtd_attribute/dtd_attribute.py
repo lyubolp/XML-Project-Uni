@@ -53,14 +53,14 @@ class DTDAttribute:
         self.enumerated_values = []
         self.enumerated_default_value = ""
 
-    def _debug_print(self):
-        print("Element: " + self.element_name)
-        print("Attribute: " + self.attribute_name)
-        print("Attribute Type: " + self.attribute_type.name)
-        print("Value Type: " + self.value_type.name)
-        print("Value: " + self.value)
-        if self.attribute_type == DTDAttributeType.Enumerated:
-            print("Enumerated values")
-            print(self.enumerated_values)
-            print("Default value: " + self.enumerated_default_value)
-        print()
+    # def _debug_print(self):
+    #     print("Element: " + self.element_name)
+    #     print("Attribute: " + self.attribute_name)
+    #     print("Attribute Type: " + self.attribute_type.name)
+    #     print("Value Type: " + self.value_type.name)
+    #     print("Value: " + self.value)
+    #     if self.attribute_type == DTDAttributeType.Enumerated:
+    #         print("Enumerated values")
+    #         print(self.enumerated_values)
+    #         print("Default value: " + self.enumerated_default_value)
+    #     print()
