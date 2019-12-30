@@ -1,20 +1,10 @@
 import re
 from src.dtd_attribute.dtd_attribute import *
+from src.dtd_element.dtd_element import *
 
 
 DTD_ELEMENT_TAG_BEGINNING = "<!ELEMENT"
 DTD_ATTRIBUTE_TAG_BEGINNING = "<!ATTLIST"
-
-
-def _get_token_children(token: str):
-    """
-    Parse the child elements of a DTD element.
-    Child elements are after the second whitespace
-    :param token: string representing DTD element, e.g. <!ELEMENT ...>
-    :return: list of all children of a DTD element
-    """
-    splitter = r'[\s,)(]'
-    return list(filter(None, re.split(splitter, token)[2:-1]))
 
 
 def _get_token_name(token: str) -> str:
@@ -71,25 +61,6 @@ class DTDParser:
         self._read_file_content()
         self._tokenize_content()
         self._parse_tokens()
-
-        # self.debug_print_attributes()
-        # self.debug_print_elements()
-
-    def _debug_print_attributes(self) -> None:
-        """
-        Print debug information about the attributes parsed on stdout
-        """
-        for i in self.attributes.keys():
-            for k in self.attributes[i]:
-                k._debug_print()
-
-    def _debug_print_elements(self) -> None:
-        """
-        Print debug information about the elements parsed on stdout
-        """
-        for i in self.elements.keys():
-            print("Element: " + i + ", Children: ", end="")
-            print(self.elements[i])
 
     def _read_file_content(self) -> None:
         """
@@ -152,7 +123,7 @@ class DTDParser:
         :param token: string representing DTD element, e.g. <!ELEMENT ...>
         """
         name = _get_token_name(token)
-        children = _get_token_children(token)
+        children = self._get_token_children(token)
         self.elements[name] = children
 
     def _add_attribute(self, token: str) -> None:
@@ -199,3 +170,86 @@ class DTDParser:
         if element_name not in self.attributes.keys():
             self.attributes[element_name] = []
         self.attributes[element_name].append(attribute)
+
+    def _get_token_children(self, token: str):
+        """
+        Parse the child elements of a DTD element.
+        Child elements are after the second whitespace
+        :param token: string representing DTD element, e.g. <!ELEMENT ...>
+        :return: list of all children of a DTD element
+        """
+        splitter = r'[\s]'
+        children_string = re.split(splitter, token, 2)
+        children_string = list(filter(None, children_string))[2]
+        children_string = children_string.strip(">")
+        "child_token_splitter is a regex which splits the children string into tokens"
+        "a token is either a DTD element name or one of the following symbols:"
+        "* ? + ( ) ,"
+        child_token_splitter = r'[\+)(\,\*\?]|[^\+)(\,\*\?]+'
+        children_list = re.findall(child_token_splitter, children_string)
+        children_list = [x.strip(" ") for x in children_list]
+        children_list = list(filter(None, children_list))
+
+        root = DTDElement()
+        current_element = root
+        parents = []
+
+        if children_list[0] == "EMPTY":
+            root.element_name = "EMPTY"
+            return root
+
+        if children_list[-1] == "+":
+            root.occurrences = DTDElementCount.OneOrMore
+            children_list.pop(-1)
+        if children_list[-1] == "*":
+            root.occurrences = DTDElementCount.ZeroOrMore
+            children_list.pop(-1)
+        if children_list[-1] == "?":
+            root.occurrences = DTDElementCount.ZeroOrOne
+            children_list.pop(-1)
+
+        if children_list[0] != "(" or children_list[-1] != ")":
+            raise ValueError("Invalid DTD element {} in file {}".format(token, self._path))
+
+        # Remove starting and ending parentheses, because the root is created manually
+        children_list.pop(0)
+        children_list.pop(-1)
+
+        for child_token in children_list:
+            if child_token == ",":
+                pass
+            elif child_token == "*":
+                current_element.sub_elements[-1].occurrences = DTDElementCount.ZeroOrMore
+            elif child_token == "+":
+                current_element.sub_elements[-1].occurrences = DTDElementCount.OneOrMore
+            elif child_token == "?":
+                current_element.sub_elements[-1].occurrences = DTDElementCount.ZeroOrOne
+            elif child_token == "(":
+                new_child = DTDElement()
+                current_element.sub_elements.append(new_child)
+                parents.append(current_element)
+                current_element = current_element.sub_elements[-1]
+            elif child_token == ")":
+                current_element = parents[-1]
+                parents.pop(-1)
+            else:
+                new_child = DTDElement(child_token)
+                current_element.sub_elements.append(new_child)
+
+        return root
+
+        # def _debug_print_attributes(self) -> None:
+        #     """
+        #     Print debug information about the attributes parsed on stdout
+        #     """
+        #     for i in self.attributes.keys():
+        #         for k in self.attributes[i]:
+        #             k._debug_print()
+        #
+        # def _debug_print_elements(self) -> None:
+        #     """
+        #     Print debug information about the elements parsed on stdout
+        #     """
+        #     for i in self.elements.keys():
+        #         print("Element: " + i + ", Children: ", end="")
+        #         print(self.elements[i])
