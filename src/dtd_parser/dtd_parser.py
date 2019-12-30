@@ -153,7 +153,9 @@ class DTDParser:
             split_all = list(filter(None, re.split(r'[)(>|]+', token_after_attribute_name)))
             attribute.attribute_type = DTDAttributeType.Enumerated
             attribute.value_type = DTDAttributeValueType.VALUE
-            attribute.enumerated_default_value = split_all[-1].strip('" ')
+            attribute.value = split_all[-1].strip('" ')
+            if attribute.value == "#IMPLIED" or attribute.value == "#REQUIRED":
+                attribute.value = ""
             attribute.enumerated_values = [value.strip('" ') for value in split_all[:-1]]
         else:
             # Non-enumerated attribute
