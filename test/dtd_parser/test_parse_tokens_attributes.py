@@ -8,7 +8,7 @@ def count_attributes(attributes: dict) -> int:
     return sum(len(attributes[attr]) for attr in attributes.keys())
 
 
-class TestDTDParserParseTokens(unittest.TestCase):
+class TestDTDParserParseTokensAttributes(unittest.TestCase):
     def setUp(self) -> None:
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 

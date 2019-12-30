@@ -5,7 +5,7 @@ from src.dtd_attribute.dtd_attribute import DTDAttributeType, DTDAttributeValueT
 from src.dtd_element.dtd_element import DTDElementCount
 
 
-class TestDTDParserParseTokens(unittest.TestCase):
+class TestDTDParserParseTokensElements(unittest.TestCase):
     def setUp(self) -> None:
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
