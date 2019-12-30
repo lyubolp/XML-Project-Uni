@@ -4,4 +4,4 @@
 <!ATTLIST square fax CDATA #IMPLIED>
 <!ATTLIST square company CDATA #FIXED "Microsoft">
 <!ATTLIST square type (check|cash) "cash">
-<!ATTLIST square type ("Mr or Mrs"|"Mr") "Mr or Mrs">
+<!ATTLIST square title ("Mr or Mrs"|"Mr") "Mr or Mrs">
