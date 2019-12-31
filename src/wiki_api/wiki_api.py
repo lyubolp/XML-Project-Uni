@@ -6,9 +6,9 @@
 """
 import xml.etree.ElementTree as ET
 import requests
-from src.xml_document import XMLDocument
-from src.content import Content
-from src.image import Image
+from src.xml_document.xml_document import XMLDocument
+from src.content.content import Content
+from src.content.image import Image
 
 
 class WikiAPI:
