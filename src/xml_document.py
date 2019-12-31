@@ -54,7 +54,7 @@ class XMLDocument:
         file = open(self._path, "w")
         file.write(data)
 
-    def add_element(self, parent_tag: str, tag: str, content: str, attributes: dict = None):
+    def add_element(self, parent_tag: str, tag: str, content: str, attributes: dict = dict()):
         """
         Adds an subelement to an element
         :param parent_tag: the name of the tag to act as a parent of the new element
@@ -63,7 +63,7 @@ class XMLDocument:
         :param attributes: (Optional) - key/value pairs with the attributes
         :return: None
         """
-        added_item = ET.SubElement(self.get_first_element(parent_tag), tag, attributes)
+        added_item = ET.SubElement(self.get_last_element(parent_tag), tag, attributes)
         added_item.text = content
 
     def add_attribute(self, tag: str, key_value: (str, str)):
@@ -73,7 +73,7 @@ class XMLDocument:
         :param key_value: pair of strings - key, value to add to the attributes list
         :return: None
         """
-        self.get_first_element(tag).attrib[key_value[0]] = key_value[1]
+        self.get_last_element(tag).attrib[key_value[0]] = key_value[1]
 
     def add_content(self, tag: str, content: str):
         """
@@ -82,7 +82,7 @@ class XMLDocument:
         :param content: The content itself
         :return:
         """
-        self.get_first_element(tag).text = content
+        self.get_last_element(tag).text = content
 
     def edit_element(self, old_tag: str, new_tag: str):
         """
@@ -125,7 +125,19 @@ class XMLDocument:
         :param name:
         :return: an ET.Element, that represents the element searched.
         """
+        if self._root.tag == name:
+            return self._root
         return self._root.find(".//" + name)
+
+    def get_last_element(self, name: str) -> ET.Element:
+        """
+        Returns the first tag that matches name
+        :param name:
+        :return: an ET.Element, that represents the element searched.
+        """
+        if self._root.tag == name:
+            return self._root
+        return self._root.findall(".//" + name)[-1]
 
     def get_attributes(self, tag: str) -> dict:
         """
@@ -174,3 +186,6 @@ class XMLDocument:
         :return: None
         """
         self.get_first_element(tag).text = None
+
+    def init_with_root(self, root_name: str):
+        self._root = ET.Element(root_name)
