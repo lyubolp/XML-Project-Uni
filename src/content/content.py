@@ -9,7 +9,7 @@
 
 from typing import Tuple, List
 from enum import Enum
-from src.image import Image
+from src.content.image import Image
 
 
 class ContentType(Enum):

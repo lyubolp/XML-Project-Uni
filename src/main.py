@@ -1,6 +1,6 @@
 from flask import Flask
-from src.xml_document import XMLDocument
-from src.wiki_api import WikiAPI
+from src.xml_document.xml_document import XMLDocument
+from src.wiki_api.wiki_api import WikiAPI
 
 app = Flask(__name__)
 
