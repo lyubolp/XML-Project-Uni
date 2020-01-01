@@ -11,7 +11,7 @@ class TestDTDParserParseTokensElements(unittest.TestCase):
 
     def test_1element(self):
         parser = DTDParser()
-        parser.load(self.dataPath / '1element.dtd')
+        parser.parse_file(self.dataPath / '1element.dtd')
         self.assertEqual(len(parser.elements["note"].sub_elements), 1)
         self.assertEqual(parser.elements["note"].element_name, "")
         self.assertEqual(parser.elements["note"].sub_elements[0].element_name, "#PCDATA")
@@ -19,7 +19,7 @@ class TestDTDParserParseTokensElements(unittest.TestCase):
 
     def test_1complex_element(self):
         parser = DTDParser()
-        parser.load(self.dataPath / '1complex_element.dtd')
+        parser.parse_file(self.dataPath / '1complex_element.dtd')
         self.assertEqual(len(parser.elements["Department"].sub_elements), 3)
         self.assertEqual(parser.elements["Department"].element_name, "")
 
@@ -37,7 +37,7 @@ class TestDTDParserParseTokensElements(unittest.TestCase):
 
     def test_nested_child_elements(self):
         parser = DTDParser()
-        parser.load(self.dataPath / 'nested_child_elements.dtd')
+        parser.parse_file(self.dataPath / 'nested_child_elements.dtd')
         self.assertEqual(len(parser.elements["D"].sub_elements), 2)
         self.assertEqual(parser.elements["D"].element_name, "")
         self.assertEqual(parser.elements["D"].occurrences, DTDElementCount.OneOrMore)
@@ -55,7 +55,7 @@ class TestDTDParserParseTokensElements(unittest.TestCase):
 
     def test_complex_elements(self):
         parser = DTDParser()
-        parser.load(self.dataPath / 'complex_elements.dtd')
+        parser.parse_file(self.dataPath / 'complex_elements.dtd')
         self.assertEqual(len(parser.elements["Course_Catalog"].sub_elements), 1)
         self.assertEqual(len(parser.elements["Department"].sub_elements), 3)
         self.assertEqual(len(parser.elements["game"].sub_elements), 2)

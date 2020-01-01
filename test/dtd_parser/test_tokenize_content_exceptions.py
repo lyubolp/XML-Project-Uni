@@ -9,11 +9,11 @@ class TestDTDParserTokenizeExceptions(unittest.TestCase):
 
     def test_empty_file(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'empty_file.dtd')
+        self.assertRaises(ValueError, parser.parse_file, self.dataPath / 'empty_file.dtd')
         self.assertEqual(len(parser._tokens), 0)
         self.assertEqual(parser._content, "")
 
     def test_dtd_mixed_with_text(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'dtd_mixed_with_text.txt')
+        self.assertRaises(ValueError, parser.parse_file, self.dataPath / 'dtd_mixed_with_text.txt')
         self.assertEqual(len(parser._tokens), 0)
