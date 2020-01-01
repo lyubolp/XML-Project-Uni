@@ -29,16 +29,13 @@ def _split_on_whitespace(token: str, splits: int) -> list:
 
 
 class DTDParser:
-    def __init__(self, path=None):
-        self._path = path
+    def __init__(self):
+        self._path = ""
         self._content = ""
         self._parents_count = dict()
         self._tokens = dict()
         self.attributes = dict()
         self.elements = dict()
-
-        if self._path is not None:
-            self.parse_file(path)
 
     def _reset_state(self) -> None:
         """

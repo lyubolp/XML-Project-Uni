@@ -8,7 +8,8 @@ class TestDTDParserReadFileContent(unittest.TestCase):
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
     def test_1element(self):
-        parser = DTDParser(self.dataPath / '1element.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '1element.dtd')
         self.assertEqual(parser._content.strip(), "<!ELEMENT note (#PCDATA)>")
 
     def test_2nested_elements(self):
