@@ -178,6 +178,60 @@ def _parse_non_enumerated_attribute(token_after_attribute_name: str) -> DTDAttri
     return attribute
 
 
+def _generate_child_tokens(token: str) -> list:
+    """
+    Given a DTD token, convert the child-elements list into a list of child-tokens.
+    A child-token is either a DTD element name or one of the following symbols:
+    * ? + ( )
+    :param token: DTD element or attribute tag as a string
+    :return: A list of child-tokens
+    """
+    splitter = r'\s'
+    children_string = re.split(splitter, token, 2)
+    children_string = list(filter(None, children_string))[2]
+    children_string = children_string.strip(">")
+    "child_token_splitter is a regex which splits the children string into tokens"
+    "a token is either a DTD element name or one of the following symbols:"
+    "* ? + ( ) ,"
+    child_token_splitter = r'[\+)(\,\*\?]|[^\+)(\,\*\?]+'
+    child_tokens = re.findall(child_token_splitter, children_string)
+    child_tokens = [x.strip(" ") for x in child_tokens]
+    child_tokens = list(filter(None, child_tokens))
+
+    return child_tokens
+
+
+def _check_last_token_for_special_symbol(root: DTDElement, child_tokens: list) -> None:
+    """
+    Check the children list if there are any special symbols at the end:
+    * at the end means the children-list can be repeated 0 or more times
+    + at the end means the children-list can be repeated 1 or more times
+    + at the end means the children-list can be repeated exactly 0 or 1 times
+    :param root: represents the outermost parentheses of a child-element list
+    :param child_tokens: list of child-tokens
+    """
+    if child_tokens[-1] == "+":
+        root.occurrences = DTDElementCount.OneOrMore
+        child_tokens.pop(-1)
+    if child_tokens[-1] == "*":
+        root.occurrences = DTDElementCount.ZeroOrMore
+        child_tokens.pop(-1)
+    if child_tokens[-1] == "?":
+        root.occurrences = DTDElementCount.ZeroOrOne
+        child_tokens.pop(-1)
+
+
+def _validate_child_tokens_for_parentheses(child_tokens: list, token: str) -> None:
+    """
+    Check if the child-token list has valid starting and ending tokens ( )
+    to initialize the root DTDElement
+    :param child_tokens: list of child-tokens
+    :param token: DTD element or attribute tag as a string
+    """
+    if child_tokens[0] != "(" or child_tokens[-1] != ")":
+        raise ValueError("Invalid DTD element {}".format(token))
+
+
 class DTDParser:
     """ DTD Parser
     A class which allows parsing of DTD, which is in the form of a string.
@@ -344,51 +398,45 @@ class DTDParser:
             self.attributes[attribute.element_name] = []
         self.attributes[attribute.element_name].append(attribute)
 
-    def _get_token_children(self, token: str):
+    def _get_token_children(self, token: str) -> DTDElement:
         """
         Parse the child elements of a DTD element.
         Child elements are after the second whitespace
         :param token: string representing DTD element, e.g. <!ELEMENT ...>
         :return: list of all children of a DTD element
         """
-        splitter = r'[\s]'
-        children_string = re.split(splitter, token, 2)
-        children_string = list(filter(None, children_string))[2]
-        children_string = children_string.strip(">")
-        "child_token_splitter is a regex which splits the children string into tokens"
-        "a token is either a DTD element name or one of the following symbols:"
-        "* ? + ( ) ,"
-        child_token_splitter = r'[\+)(\,\*\?]|[^\+)(\,\*\?]+'
-        children_list = re.findall(child_token_splitter, children_string)
-        children_list = [x.strip(" ") for x in children_list]
-        children_list = list(filter(None, children_list))
+        child_tokens = _generate_child_tokens(token)
 
         root = DTDElement()
-        current_element = root
-        parents = []
+        _check_last_token_for_special_symbol(root, child_tokens)
 
-        if children_list[0] == "EMPTY":
+        if child_tokens[0] == "EMPTY":
             root.element_name = "EMPTY"
             return root
 
-        if children_list[-1] == "+":
-            root.occurrences = DTDElementCount.OneOrMore
-            children_list.pop(-1)
-        if children_list[-1] == "*":
-            root.occurrences = DTDElementCount.ZeroOrMore
-            children_list.pop(-1)
-        if children_list[-1] == "?":
-            root.occurrences = DTDElementCount.ZeroOrOne
-            children_list.pop(-1)
+        _validate_child_tokens_for_parentheses(child_tokens, token)
 
-        if children_list[0] != "(" or children_list[-1] != ")":
-            raise ValueError("Invalid DTD element {} in file {}".format(token, self._path))
+        root = self._generate_children_tree_from_child_tokens(root, child_tokens)
 
+        return root
+
+    def _generate_children_tree_from_child_tokens(self, root: DTDElement, child_tokens: list) -> DTDElement:
+        """
+        Given a root DTD element, which represents the outermost parentheses of
+        a child-element list, and the parsed children list to child-tokens -
+        Generate a tree of children (DTDElement objects) which represents the hierarchy of elements
+        under the parent element.
+        :param root: The root of the DTD children, represents the opening and closing parentheses ( )
+        :param child_tokens: List of child-tokens, either a child element name or + ? * ( )
+        :return: returns tree with the root with the children added to it
+        """
+        current_element = root
+        parents_stack = []
         # Remove starting and ending parentheses, because the root is created manually
-        children_list.pop(0)
-        children_list.pop(-1)
+        child_tokens.pop(0)
+        child_tokens.pop(-1)
 
-        for child_token in children_list:
+        for child_token in child_tokens:
             if child_token == ",":
                 pass
             elif child_token == "*":
@@ -400,11 +448,11 @@ class DTDParser:
             elif child_token == "(":
                 new_child = DTDElement()
                 current_element.sub_elements.append(new_child)
-                parents.append(current_element)
+                parents_stack.append(current_element)
                 current_element = current_element.sub_elements[-1]
             elif child_token == ")":
-                current_element = parents[-1]
-                parents.pop(-1)
+                current_element = parents_stack[-1]
+                parents_stack.pop(-1)
             else:
                 self._add_element_to_parents_count(child_token)
                 self._parents_count[child_token] += 1
@@ -414,6 +462,10 @@ class DTDParser:
         return root
 
     def get_root(self) -> str:
+        """
+        Find the root element of the DTD
+        :return: the name of the root element of the DTD, if such exists
+        """
         for x in self._parents_count.keys():
             if self._parents_count[x] == 0:
                 return x
