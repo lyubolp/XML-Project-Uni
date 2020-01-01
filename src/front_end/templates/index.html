@@ -12,6 +12,7 @@
 
         <div class="w3-panel w3-dark-gray w3-card-4">
             <form action="" method="post" enctype="multipart/form-data" novalidate>
+                {{ form.hidden_tag() }}
                 <p>Качете валиден DTD файл: </p>
                 {{ form.dtd}}
 
@@ -21,9 +22,5 @@
                 {{ form.submit}}
             </form>
         </div>
-
-
-
-
     </body>
 </html>

@@ -12,8 +12,7 @@ def index():
     file_upload_form = FileUploadForm()
     if file_upload_form.validate_on_submit():
         f = file_upload_form.dtd.data
-        print(f)
-        print(file_upload_form.wiki_article_name)
+        print(f.read())
+        print(file_upload_form.wiki_article_name.data)
 
-    print("Error")
     return render_template('index.html', project_name='XML Project', form=file_upload_form)
