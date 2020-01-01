@@ -12,4 +12,4 @@ class TestDTDParserReadFileContentExceptions(unittest.TestCase):
 
     def test_non_dtd_tags(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'non_dtd_tags.dtd')
+        self.assertRaises(ValueError, parser.parse_file, self.dataPath / 'non_dtd_tags.dtd')

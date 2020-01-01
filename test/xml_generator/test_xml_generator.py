@@ -13,6 +13,7 @@ class TestXMLGenerator(unittest.TestCase):
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<note />')
+        self.assertEqual(generator.get_xml().get_root().tag, 'note')
 
     def test_2nested_elements(self):
         parser = DTDParser(self.dataPath / '2nested_elements.dtd')

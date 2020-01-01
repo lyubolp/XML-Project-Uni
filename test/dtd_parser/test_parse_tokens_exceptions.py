@@ -9,8 +9,8 @@ class TestDTDParserParseTokensExceptions(unittest.TestCase):
 
     def test_non_dtd_tags(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'invalid_token.dtd')
+        self.assertRaises(ValueError, parser.parse_file, self.dataPath / 'invalid_token.dtd')
 
     def test_invalid_element_children(self):
         parser = DTDParser()
-        self.assertRaises(ValueError, parser.load, self.dataPath / 'invalid_element_children.dtd')
+        self.assertRaises(ValueError, parser.parse_file, self.dataPath / 'invalid_element_children.dtd')

@@ -38,7 +38,7 @@ class DTDParser:
         self.elements = dict()
 
         if self._path is not None:
-            self.load(path)
+            self.parse_file(path)
 
     def _reset_state(self) -> None:
         """
@@ -51,7 +51,7 @@ class DTDParser:
         self.elements = dict()
         self.attributes = dict()
 
-    def load(self, path) -> None:
+    def parse_file(self, path) -> None:
         """
         Load a file from a path and parse its content
         :param path: path to the file to load
@@ -60,6 +60,18 @@ class DTDParser:
         self._path = path
 
         self._read_file_content()
+        self._tokenize_content()
+        self._parse_tokens()
+
+    def parse_string(self, dtd_string: str) -> None:
+        """
+        Load a file from a path and parse its content
+        :param dtd_string: a string containing DTD
+        """
+        self._reset_state()
+        self._path = ""
+        self._content = dtd_string
+
         self._tokenize_content()
         self._parse_tokens()
 
