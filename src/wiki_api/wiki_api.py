@@ -174,7 +174,7 @@ class WikiAPI:
         """
         session = requests.Session()
 
-        url = "https://en.wikipedia.org/w/api.php"
+        url = "https://bg.wikipedia.org/w/api.php"
 
         request_params = {
             "action": "parse",
