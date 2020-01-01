@@ -8,7 +8,8 @@ class TestDTDParserReadFileContentExceptions(unittest.TestCase):
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
     def test_file_not_found(self):
-        self.assertRaises(FileNotFoundError, DTDParser, self.dataPath / '.file_does_not_exist_gibberish.dtd.')
+        parser = DTDParser()
+        self.assertRaises(FileNotFoundError, parser.parse_file, self.dataPath / '.file_does_not_exist_gibberish.dtd.')
 
     def test_non_dtd_tags(self):
         parser = DTDParser()

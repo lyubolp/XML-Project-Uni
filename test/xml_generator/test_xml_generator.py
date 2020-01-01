@@ -9,39 +9,45 @@ class TestXMLGenerator(unittest.TestCase):
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
     def test_1element(self):
-        parser = DTDParser(self.dataPath / '1element.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '1element.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<note />')
         self.assertEqual(generator.get_xml().get_root().tag, 'note')
 
     def test_2nested_elements(self):
-        parser = DTDParser(self.dataPath / '2nested_elements.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '2nested_elements.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<note><heading /></note>')
 
     def test_1element_1attribute(self):
-        parser = DTDParser(self.dataPath / '1element_1attribute.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '1element_1attribute.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<square width="0" />')
 
     def test_5nested_elements(self):
-        parser = DTDParser(self.dataPath / '5nested_elements.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '5nested_elements.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<note><to /><from /><heading /><body /></note>')
 
     def test_1element_6attributes(self):
-        parser = DTDParser(self.dataPath / '1element_6attributes.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '1element_6attributes.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<square width="0" number="" fax="" company="Microsoft" type="cash" '
                                                 'title="Mr or Mrs" />')
 
     def test_11elements_6attributes(self):
-        parser = DTDParser(self.dataPath / '11elements_6attributes.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '11elements_6attributes.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<Course_Catalog Year="2017-2018"><Department Code=""><Title '
@@ -51,7 +57,8 @@ class TestXMLGenerator(unittest.TestCase):
                                                 '/></Lecturer></Department></Course_Catalog>')
 
     def test_9elements_3attributes(self):
-        parser = DTDParser(self.dataPath / '9elements_3attributes.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '9elements_3attributes.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<games><game score=""><home-team /><ex-team /><scores><score time="" '
@@ -59,7 +66,8 @@ class TestXMLGenerator(unittest.TestCase):
                                                 '/></yellows><reds><player /></reds></game></games>')
 
     def test_14elements_2attributes(self):
-        parser = DTDParser(self.dataPath / '14elements_2attributes.dtd')
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '14elements_2attributes.dtd')
         generator = XMLGenerator(parser)
         generator.generate_xml()
         self.assertEqual(generator.to_string(), '<Course_Catalog><Department Code=""><Title '
