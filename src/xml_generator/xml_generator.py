@@ -16,43 +16,70 @@ class XMLGenerator:
         self._root_name = parser.get_root()
         self._xml_document = XMLDocument()
 
+    def get_xml(self) -> XMLDocument:
+        """
+        Get the converted XMLDocument
+        :return: Generated XML from the parsed DTD as an XMLDocument
+        """
+        return self._xml_document
+
     def generate_xml(self) -> XMLDocument:
+        """
+        Generate an XML tree from the given parser in the constructor
+        :return: Generated XML tree as an XMLDocument
+        """
         self._xml_document = XMLDocument()
         self._xml_document.init_with_root(self._root_name)
 
-        if self._root_name in self._parser.attributes.keys():
-            for attr in self._parser.attributes[self._root_name]:
-                self._xml_document.add_attribute(self._root_name, (attr.attribute_name, attr.value))
+        self._add_attributes_for_element(self._root_name)
+        self._add_child_elements_for_element(self._root_name)
 
-        if self._root_name in self._parser.elements.keys():
-            children = self._parser.elements[self._root_name]
+        return self._xml_document
+
+    def _add_attributes_for_element(self, element_name: str) -> None:
+        """
+        Generate the XML attributes for a given element, the element with that name
+        must be the last element with such name added, because attributes are added
+        to the last element only
+        :param element_name: the element for which to generate attributes
+        """
+        if element_name in self._parser.attributes.keys():
+            for attr in self._parser.attributes[element_name]:
+                self._xml_document.add_attribute(element_name, (attr.attribute_name, attr.value))
+
+    def _add_child_elements_for_element(self, element_name: str) -> None:
+        """
+        Add child XML elements to the last added element_name in the XML tree
+        Iterate all the direct children and call recursive add for each one
+        :param element_name: element name for which to add child elements
+        """
+        if element_name in self._parser.elements.keys():
+            children = self._parser.elements[element_name]
             if children.element_name == "":
                 for child in children.sub_elements:
-                    self._recursive_add_children(self._root_name, child)
+                    self._recursive_add_children(element_name, child)
 
-        return self._xml_document
-
-    def get_xml(self):
-        return self._xml_document
-
-    def _recursive_add_children(self, parent: str, child: DTDElement):
+    def _recursive_add_children(self, parent: str, child: DTDElement) -> None:
+        """
+        For a given parent element and child element:
+            If the child is a simple child (has no sub-children), add it to the parent
+            If the child is complex (has sub-elements), recursively add its children
+        :param parent: The element to which the children must be added
+        :param child: the current child being parsed
+        """
         if child.element_name != "":
             if child.element_name == "#PCDATA":
                 return
             self._xml_document.add_element(parent, child.element_name, "")
-
-            if child.element_name in self._parser.attributes.keys():
-                for attr in self._parser.attributes[child.element_name]:
-                    self._xml_document.add_attribute(child.element_name, (attr.attribute_name, attr.value))
-
-            if child.element_name in self._parser.elements.keys():
-                grand_children = self._parser.elements[child.element_name]
-                if grand_children.element_name == "":
-                    for grand_child in grand_children.sub_elements:
-                        self._recursive_add_children(child.element_name,grand_child)
+            self._add_attributes_for_element(child.element_name)
+            self._add_child_elements_for_element(child.element_name)
         else:
             for sub_child in child.sub_elements:
                 self._recursive_add_children(parent, sub_child)
 
-    def to_string(self):
+    def to_string(self) -> str:
+        """
+        Convert the XML tree to string
+        :return: the xml as a string, non-formatted
+        """
         return str(ET.tostring(self._xml_document.get_root(), encoding="unicode", method="xml"))
