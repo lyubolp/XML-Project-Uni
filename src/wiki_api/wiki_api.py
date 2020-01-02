@@ -9,6 +9,18 @@ import requests
 from src.xml_document.xml_document import XMLDocument
 from src.content.content import Content
 from src.content.image import Image
+from enum import Enum
+
+
+class RequestType(Enum):
+    """
+    ContentType - see module docstring for purpose
+    """
+    HEADER_TEXT = 1
+    HEADER_IMAGE = 2
+    HEADER_TEXT_IMAGE = 3
+    TEXT = 4
+    IMAGE = 5
 
 
 class WikiAPI:
@@ -116,8 +128,11 @@ class WikiAPI:
                           if item.startswith("[") is not True and item != '\n' and item != '']
 
         for word in formatted_text:
-            result = result + " " + word
-        return result
+            if word.startswith(',') is True or word.startswith('.'):
+                result = result + word
+            else:
+                result = result + " " + word
+        return result[1:]
 
     @staticmethod
     def __get_title_from_element(element: ET.Element) -> str:

@@ -189,3 +189,10 @@ class XMLDocument:
 
     def init_with_root(self, root_name: str):
         self._root = ET.Element(root_name)
+
+    def to_string(self) -> str:
+        """
+        Convert the XML tree to string
+        :return: the xml as a string, non-formatted
+        """
+        return str(ET.tostring(self._root, encoding="unicode", method="xml"))
