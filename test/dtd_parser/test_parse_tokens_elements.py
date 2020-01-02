@@ -1,7 +1,6 @@
 import unittest
 from src.dtd_parser.dtd_parser import DTDParser
 from src.project_path.project_path import ProjectPath
-from src.dtd_attribute.dtd_attribute import DTDAttributeType, DTDAttributeValueType
 from src.dtd_element.dtd_element import DTDElementCount
 
 
@@ -16,6 +15,11 @@ class TestDTDParserParseTokensElements(unittest.TestCase):
         self.assertEqual(parser.elements["note"].element_name, "")
         self.assertEqual(parser.elements["note"].sub_elements[0].element_name, "#PCDATA")
         self.assertEqual(parser.elements["note"].sub_elements[0].sub_elements, [])
+
+    def test_1comment_1element(self):
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / '1comment_1element.dtd')
+        self.assertEqual(len(parser.elements.keys()), 1)
 
     def test_1complex_element(self):
         parser = DTDParser()
