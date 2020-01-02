@@ -3,10 +3,13 @@ from src.dtd_attribute.dtd_attribute import *
 from src.dtd_element.dtd_element import *
 
 """The prefix of a valid DTD element tag"""
-DTD_ELEMENT_TAG_BEGINNING = "<!ELEMENT"
+DTD_ELEMENT_TAG_PREFIX = "<!ELEMENT"
 
 """The prefix of a valid DTD attribute tag"""
-DTD_ATTRIBUTE_TAG_BEGINNING = "<!ATTLIST"
+DTD_ATTRIBUTE_TAG_PREFIX = "<!ATTLIST"
+
+"""The prefix of a DTD comment"""
+DTD_COMMENT_PREFIX = "<!--"
 
 """IMPLIED attribute-value-type"""
 DTD_ATTRIBUTE_VALUE_IMPLIED = "#IMPLIED"
@@ -297,7 +300,7 @@ class DTDParser:
         """
         Read the content of the file pointed by _path as a string
         """
-        with open(self._path, "r") as file:
+        with open(self._path, "r", encoding="utf8") as file:
             self._content = file.read()
 
     def _tokenize_content(self) -> None:
@@ -324,10 +327,12 @@ class DTDParser:
             value: list of DTDAttribute objects representing the parsed attributes
         """
         for token in self._tokens:
-            if token.startswith(DTD_ELEMENT_TAG_BEGINNING):
+            if token.startswith(DTD_ELEMENT_TAG_PREFIX):
                 self._add_element(token)
-            elif token.startswith(DTD_ATTRIBUTE_TAG_BEGINNING):
+            elif token.startswith(DTD_ATTRIBUTE_TAG_PREFIX):
                 self._add_attribute(token)
+            elif token.startswith(DTD_COMMENT_PREFIX):
+                pass
             else:
                 raise ValueError("The content of file {} is invalid. Invalid token found: {}".format(self._path, token))
 
