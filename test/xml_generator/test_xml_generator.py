@@ -77,3 +77,10 @@ class TestXMLGenerator(unittest.TestCase):
                                                 '/></Lecturer><Professor><First_Name /><Middle_Initial /><Last_Name '
                                                 '/></Professor></Instructors><Prerequisites><Prereq '
                                                 '/></Prerequisites></Course></Department></Course_Catalog>')
+
+    def test_nested_child_elements(self):
+        parser = DTDParser()
+        parser.parse_file(self.dataPath / 'nested_child_elements.dtd')
+        generator = XMLGenerator(parser)
+        generator.generate_xml()
+        self.assertEqual(generator.to_string(), '<D><A /><B /><C /></D>')

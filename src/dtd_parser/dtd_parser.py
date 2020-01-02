@@ -469,7 +469,7 @@ class DTDParser:
         for x in self._parents_count.keys():
             if self._parents_count[x] == 0:
                 return x
-        return ""
+        raise ValueError("No root exists for the provided DTD")
 
         # def _debug_print_attributes(self) -> None:
         #     """
