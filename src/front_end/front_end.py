@@ -62,7 +62,8 @@ def index():
         xml_document = xml_generate.generate_xml()
         wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
 
+        xml_document.fill_content(wiki_content)
+
         print(xml_document.to_string())
-        print(wiki_content.content[0][1])
 
     return render_template('index.html', project_name='XML Project', form=file_upload_form)

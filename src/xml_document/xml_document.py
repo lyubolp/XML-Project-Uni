@@ -2,10 +2,13 @@
 :version: 1.0
 :author Lyuboslav Karev
 
-    Holds the XMLDocument class
+    Holds the XMLDocument class and it's exception
 """
 import xml.etree.ElementTree as ET
+from src.content.content import Content, ContentType
 
+class IncompatibleException(Exception):
+    """The content cannot be formed with this XML file"""
 
 class XMLDocument:
     """
@@ -196,3 +199,9 @@ class XMLDocument:
         :return: the xml as a string, non-formatted
         """
         return str(ET.tostring(self._root, encoding="unicode", method="xml"))
+
+    def fill_content(self, article: Content):
+        content_index = 0
+        for element in self._root:
+            element.text = article.content[content_index][1]
+            content_index += 1
