@@ -1,9 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session
 from .file_upload_form import FileUploadForm
+from .xml_edit import XMLEditForm
 from config import Config
 from src.wiki_api.wiki_api import WikiAPI, Content, RequestType
 from src.dtd_parser.dtd_parser import DTDParser
 from src.xml_generator.xml_generator import XMLGenerator
+from src.xml_document.xml_document import XMLDocument, IncompatibleException
 from src.consts import *
 
 
@@ -59,11 +61,24 @@ def index():
         parser.parse_string(dtd_string.decode('utf-8'))
         xml_generate = XMLGenerator(parser)
 
-        xml_document = xml_generate.generate_xml()
+        xml_document: XMLDocument = xml_generate.generate_xml()
         wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
 
-        xml_document.fill_content(wiki_content)
-
-        print(xml_document.to_string())
+        try:
+            xml_document.fill_content(wiki_content)
+        except IncompatibleException:
+            return 'Това DTD не отговаря на Wikipedia статия'
+        session['generated_xml'] = xml_document.to_string()
+        return redirect(url_for('xml_edit'))
 
     return render_template('index.html', project_name='XML Project', form=file_upload_form)
+
+
+@app.route('/xml_edit', methods=['GET', 'POST'])
+def xml_edit():
+    xml_edit_form = XMLEditForm()
+    if xml_edit_form.validate_on_submit():
+        print('Submitted')
+
+    return render_template('xml_edit.html', project_name='XML Project', form=xml_edit_form,
+                           xml_to_edit=session['generated_xml'])
