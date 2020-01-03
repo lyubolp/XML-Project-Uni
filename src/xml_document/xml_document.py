@@ -7,8 +7,10 @@
 import xml.etree.ElementTree as ET
 from src.content.content import Content, ContentType
 
+
 class IncompatibleException(Exception):
     """The content cannot be formed with this XML file"""
+
 
 class XMLDocument:
     """
@@ -16,6 +18,7 @@ class XMLDocument:
     It can be also used to parse HTML files.
     It wraps some of the built-in xml manipulation functions is the xml.etree package
     """
+
     def __init__(self):
         """
         self._doc is the document itself, as a file
@@ -203,5 +206,12 @@ class XMLDocument:
     def fill_content(self, article: Content):
         content_index = 0
         for element in self._root:
-            element.text = article.content[content_index][1]
-            content_index += 1
+            is_text_matching = (element.tag == 'text' and article.content[content_index][0] == ContentType.TEXT)
+            is_title_matching = (element.tag == 'title' and article.content[content_index][0] == ContentType.TITLE)
+            is_image_matching = (element.tag == 'image' and article.content[content_index][0] == ContentType.IMAGE)
+
+            if is_text_matching or is_title_matching or is_image_matching:
+                element.text = article.content[content_index][1]
+                content_index += 1
+            else:
+                raise IncompatibleException
