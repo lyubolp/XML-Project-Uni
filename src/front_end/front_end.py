@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+import os
+
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from .file_upload_form import FileUploadForm
 from .xml_edit import XMLEditForm
 from config import Config
@@ -78,7 +80,10 @@ def index():
 def xml_edit():
     xml_edit_form = XMLEditForm()
     if xml_edit_form.validate_on_submit():
-        print('Submitted')
+        file: XMLDocument = XMLDocument('YourXML.xml')
+        file.open_from_string(request.form['edited_xml'])
+        file.save()
+        return send_file(os.getcwd() + '/' + file.get_path())
 
     return render_template('xml_edit.html', project_name='XML Project', form=xml_edit_form,
                            xml_to_edit=session['generated_xml'])

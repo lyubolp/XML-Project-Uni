@@ -19,7 +19,7 @@ class XMLDocument:
     It wraps some of the built-in xml manipulation functions is the xml.etree package
     """
 
-    def __init__(self):
+    def __init__(self, path=None):
         """
         self._doc is the document itself, as a file
         self._root is the root element of the opened document
@@ -28,7 +28,10 @@ class XMLDocument:
         """
         self._doc = None
         self._root = None
-        self._path: str = "temp.xml"
+        if path is None:
+            self._path: str = "temp.xml"
+        else:
+            self._path = path
 
     def open(self, file_path: str):
         """
@@ -215,3 +218,6 @@ class XMLDocument:
                 content_index += 1
             else:
                 raise IncompatibleException
+
+    def get_path(self) -> str:
+        return self._path
