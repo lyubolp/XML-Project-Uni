@@ -1,22 +1,29 @@
-import os
-
-from flask import Flask, render_template, request, redirect, url_for, session, send_file
-from .file_upload_form import FileUploadForm
-from .xml_edit import XMLEditForm
+"""
+The main module - starts the application,
+handles the connection between pages and contains some of the logic
+"""
+from flask import Flask, render_template
 from config import Config
-from src.wiki_api.wiki_api import WikiAPI, Content, RequestType
 from src.dtd_parser.dtd_parser import DTDParser
+from src.wiki_api.wiki_api import WikiAPI, Content, RequestType
 from src.xml_generator.xml_generator import XMLGenerator
 from src.xml_document.xml_document import XMLDocument, IncompatibleException
-from src.consts import *
+from src.consts import HEADER_TEXT_REQUEST_LITERAL, HEADER_IMAGE_REQUEST_LITERAL, \
+    HEADER_TEXT_IMAGE_REQUEST_LITERAL, TEXT_LITERAL, IMAGE_LITERAL
+from .file_upload_form import FileUploadForm
 
 
-app = Flask(__name__)
-app.config.from_object(Config)
+APP = Flask(__name__)
+APP.config.from_object(Config)
 
-article_name = ""
 
 def get_content(title: str, request: RequestType) -> Content:
+    """
+    Gets the content of a Wikipedia article
+    :param title: The title of the searched article
+    :param request: The type of the request
+    :return: Content object containing the wikipedia article
+    """
     wiki_getter = WikiAPI()
 
     if request == RequestType.HEADER_TEXT:
@@ -50,9 +57,13 @@ def __convert_request_literal_to_enum(request_literal: str) -> RequestType:
                          "HEADER_TEXT_IMAGE, TEXT or IMAGE")
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@APP.route('/', methods=['GET', 'POST'])
+@APP.route('/index', methods=['GET', 'POST'])
 def index():
+    """
+    Loads the main page
+    :return:
+    """
     file_upload_form = FileUploadForm()
     if file_upload_form.validate_on_submit():
         file_handle = file_upload_form.dtd.data
@@ -76,4 +87,3 @@ def index():
                                xml_to_edit=xml_document.to_string())
 
     return render_template('index.html', project_name='XML Project', form=file_upload_form)
-

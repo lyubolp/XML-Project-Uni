@@ -5,11 +5,11 @@
     Contains the WikiAPI class - used to get the content from an Wikipedia article
 """
 import xml.etree.ElementTree as ET
+from enum import Enum
 import requests
 from src.xml_document.xml_document import XMLDocument
 from src.content.content import Content
 from src.content.image import Image
-from enum import Enum
 
 
 class RequestType(Enum):

@@ -1,8 +1,10 @@
-from src.dtd_element.dtd_element import DTDElement, DTDElementCount
-from src.dtd_attribute.dtd_attribute import DTDAttributeValueType, DTDAttributeType
+"""
+Contains the XMLGenerator class
+"""
+import xml.etree.ElementTree as ET
+from src.dtd_element.dtd_element import DTDElement
 from src.dtd_parser.dtd_parser import DTDParser
 from src.xml_document.xml_document import XMLDocument
-import xml.etree.ElementTree as ET
 
 
 class XMLGenerator:

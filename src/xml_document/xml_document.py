@@ -197,6 +197,10 @@ class XMLDocument:
         self.get_first_element(tag).text = None
 
     def init_with_root(self, root_name: str):
+        """
+        Initializes the XMLDocument with a root element
+        :param root_name: The name of the root element
+        """
         self._root = ET.Element(root_name)
 
     def to_string(self) -> str:
@@ -207,11 +211,18 @@ class XMLDocument:
         return str(ET.tostring(self._root, encoding="unicode", method="xml"))
 
     def fill_content(self, article: Content):
+        """
+        Fills the current XMLDocument with content (headers, text and images)
+        :param article: The Content object that has the article
+        """
         content_index = 0
         for element in self._root:
-            is_text_matching = (element.tag == 'text' and article.content[content_index][0] == ContentType.TEXT)
-            is_title_matching = (element.tag == 'title' and article.content[content_index][0] == ContentType.TITLE)
-            is_image_matching = (element.tag == 'image' and article.content[content_index][0] == ContentType.IMAGE)
+            is_text_matching = (element.tag == 'text' and
+                                article.content[content_index][0] == ContentType.TEXT)
+            is_title_matching = (element.tag == 'title' and
+                                 article.content[content_index][0] == ContentType.TITLE)
+            is_image_matching = (element.tag == 'image' and
+                                 article.content[content_index][0] == ContentType.IMAGE)
 
             if is_text_matching or is_title_matching:
                 element.text = article.content[content_index][1]
@@ -223,4 +234,7 @@ class XMLDocument:
                 raise IncompatibleException
 
     def get_path(self) -> str:
+        """
+        :return: The path of the current XMLDocument
+        """
         return self._path
