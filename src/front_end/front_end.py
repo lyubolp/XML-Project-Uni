@@ -14,6 +14,7 @@ from src.consts import *
 app = Flask(__name__)
 app.config.from_object(Config)
 
+article_name = ""
 
 def get_content(title: str, request: RequestType) -> Content:
     wiki_getter = WikiAPI()
@@ -70,20 +71,9 @@ def index():
             xml_document.fill_content(wiki_content)
         except IncompatibleException:
             return 'Това DTD не отговаря на Wikipedia статия'
-        session['generated_xml'] = xml_document.to_string()
-        return redirect(url_for('xml_edit'))
+
+        return render_template('xml_edit.html', project_name='XML Project',
+                               xml_to_edit=xml_document.to_string())
 
     return render_template('index.html', project_name='XML Project', form=file_upload_form)
 
-
-@app.route('/xml_edit', methods=['GET', 'POST'])
-def xml_edit():
-    xml_edit_form = XMLEditForm()
-    if xml_edit_form.validate_on_submit():
-        file: XMLDocument = XMLDocument('YourXML.xml')
-        file.open_from_string(request.form['edited_xml'])
-        file.save()
-        return send_file(os.getcwd() + '/' + file.get_path())
-
-    return render_template('xml_edit.html', project_name='XML Project', form=xml_edit_form,
-                           xml_to_edit=session['generated_xml'])

@@ -213,8 +213,11 @@ class XMLDocument:
             is_title_matching = (element.tag == 'title' and article.content[content_index][0] == ContentType.TITLE)
             is_image_matching = (element.tag == 'image' and article.content[content_index][0] == ContentType.IMAGE)
 
-            if is_text_matching or is_title_matching or is_image_matching:
+            if is_text_matching or is_title_matching:
                 element.text = article.content[content_index][1]
+                content_index += 1
+            elif is_image_matching:
+                element.attrib['src'] = article.content[content_index][1].src
                 content_index += 1
             else:
                 raise IncompatibleException
