@@ -87,7 +87,7 @@ def index():
         except IncompatibleException:
             return 'Това DTD не отговаря на Wikipedia статия'
 
-        return render_template('xml_edit.html', project_name='XML Project',
+        return render_template('xml_edit.html', project_name='Генериране на XML по DTD и статия в Wikipedia',
                                xml_to_edit=xml_document.to_string())
 
-    return render_template('index.html', project_name='XML Project', form=file_upload_form)
+    return render_template('index.html', project_name='Генериране на XML по DTD и статия в Wikipedia', form=file_upload_form)
