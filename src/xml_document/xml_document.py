@@ -2,9 +2,14 @@
 :version: 1.0
 :author Lyuboslav Karev
 
-    Holds the XMLDocument class
+    Holds the XMLDocument class and it's exception
 """
 import xml.etree.ElementTree as ET
+from src.content.content import Content, ContentType
+
+
+class IncompatibleException(Exception):
+    """The content cannot be formed with this XML file"""
 
 
 class XMLDocument:
@@ -13,7 +18,8 @@ class XMLDocument:
     It can be also used to parse HTML files.
     It wraps some of the built-in xml manipulation functions is the xml.etree package
     """
-    def __init__(self):
+
+    def __init__(self, path=None):
         """
         self._doc is the document itself, as a file
         self._root is the root element of the opened document
@@ -22,7 +28,10 @@ class XMLDocument:
         """
         self._doc = None
         self._root = None
-        self._path: str = "temp.xml"
+        if path is None:
+            self._path: str = "temp.xml"
+        else:
+            self._path = path
 
     def open(self, file_path: str):
         """
@@ -188,4 +197,44 @@ class XMLDocument:
         self.get_first_element(tag).text = None
 
     def init_with_root(self, root_name: str):
+        """
+        Initializes the XMLDocument with a root element
+        :param root_name: The name of the root element
+        """
         self._root = ET.Element(root_name)
+
+    def to_string(self) -> str:
+        """
+        Convert the XML tree to string
+        :return: the xml as a string, non-formatted
+        """
+        return str(ET.tostring(self._root, encoding="unicode", method="xml"))
+
+    def fill_content(self, article: Content):
+        """
+        Fills the current XMLDocument with content (headers, text and images)
+        :param article: The Content object that has the article
+        """
+        content_index = 0
+        for element in self._root:
+            is_text_matching = (element.tag == 'text' and
+                                article.content[content_index][0] == ContentType.TEXT)
+            is_title_matching = (element.tag == 'title' and
+                                 article.content[content_index][0] == ContentType.TITLE)
+            is_image_matching = (element.tag == 'image' and
+                                 article.content[content_index][0] == ContentType.IMAGE)
+
+            if is_text_matching or is_title_matching:
+                element.text = article.content[content_index][1]
+                content_index += 1
+            elif is_image_matching:
+                element.attrib['src'] = article.content[content_index][1].src
+                content_index += 1
+            else:
+                raise IncompatibleException
+
+    def get_path(self) -> str:
+        """
+        :return: The path of the current XMLDocument
+        """
+        return self._path

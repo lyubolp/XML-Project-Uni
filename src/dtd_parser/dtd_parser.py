@@ -1,23 +1,27 @@
+"""
+Contains methods used for parsing DTD files
+"""
 import re
-from src.dtd_attribute.dtd_attribute import *
-from src.dtd_element.dtd_element import *
+from src.dtd_attribute.dtd_attribute import DTDAttribute, DTDAttributeType, DTDAttributeValueType, \
+    convert_dtd_attribute_type_from_string
+from src.dtd_element.dtd_element import DTDElement, DTDElementCount
 
-"""The prefix of a valid DTD element tag"""
+# The prefix of a valid DTD element tag
 DTD_ELEMENT_TAG_PREFIX = "<!ELEMENT"
 
-"""The prefix of a valid DTD attribute tag"""
+# The prefix of a valid DTD attribute tag
 DTD_ATTRIBUTE_TAG_PREFIX = "<!ATTLIST"
 
-"""The prefix of a DTD comment"""
+# The prefix of a DTD comment
 DTD_COMMENT_PREFIX = "<!--"
 
-"""IMPLIED attribute-value-type"""
+# IMPLIED attribute-value-type
 DTD_ATTRIBUTE_VALUE_IMPLIED = "#IMPLIED"
 
-"""REQUIRED attribute-value-type"""
+# REQUIRED attribute-value-type
 DTD_ATTRIBUTE_VALUE_REQUIRED = "#REQUIRED"
 
-"""FIXED attribute-value-type"""
+# FIXED attribute-value-type
 DTD_ATTRIBUTE_VALUE_FIXED = "#FIXED"
 
 
@@ -78,16 +82,19 @@ def _parse_enumerated_attribute(token_after_attribute_name: str) -> DTDAttribute
     attribute.attribute_type = DTDAttributeType.Enumerated
     attribute.value_type = DTDAttributeValueType.VALUE
 
-    "Split on regex which matches all of the symbols ( ) > |"
+    # Split on regex which matches all of the symbols ( ) > |
     enumerated_values = list(filter(None, re.split(r'[)(>|]+', token_after_attribute_name)))
 
-    "The values prior to the last are all possible enumerated values"
+    # The values prior to the last are all possible enumerated values
     attribute.enumerated_values = [value.strip('" ') for value in enumerated_values[:-1]]
-    "The default value is the last in the list"
+
+    # The default value is the last in the list
     attribute.value = enumerated_values[-1].strip('" ')
 
-    "In case the element has no default value but is IMPLIED or REQUIRED attribute value is set to be empty"
-    if attribute.value == DTD_ATTRIBUTE_VALUE_IMPLIED or attribute.value == DTD_ATTRIBUTE_VALUE_REQUIRED:
+    # In case the element has no default value but is IMPLIED
+    # or REQUIRED attribute value is set to be empty
+    if attribute.value == DTD_ATTRIBUTE_VALUE_IMPLIED or\
+            attribute.value == DTD_ATTRIBUTE_VALUE_REQUIRED:
         attribute.value = ""
 
     return attribute
@@ -164,7 +171,9 @@ def _parse_non_enumerated_attribute(token_after_attribute_name: str) -> DTDAttri
     """
     attribute = DTDAttribute()
 
-    attribute_type, token_after_attribute_type = _get_attribute_type_from_token(token_after_attribute_name)
+    attribute_type, token_after_attribute_type = \
+        _get_attribute_type_from_token(token_after_attribute_name)
+
     attribute.attribute_type = attribute_type
 
     if _is_token_fixed(token_after_attribute_type):
@@ -193,9 +202,9 @@ def _generate_child_tokens(token: str) -> list:
     children_string = re.split(splitter, token, 2)
     children_string = list(filter(None, children_string))[2]
     children_string = children_string.strip(">")
-    "child_token_splitter is a regex which splits the children string into tokens"
-    "a token is either a DTD element name or one of the following symbols:"
-    "* ? + ( ) ,"
+    # child_token_splitter is a regex which splits the children string into tokens
+    # a token is either a DTD element name or one of the following symbols:
+    # * ? + ( ) ,
     child_token_splitter = r'[\+)(\,\*\?]|[^\+)(\,\*\?]+'
     child_tokens = re.findall(child_token_splitter, children_string)
     child_tokens = [x.strip(" ") for x in child_tokens]
@@ -248,18 +257,26 @@ class DTDParser:
         parser.parse_string(my_dtd_string)
     """
     def __init__(self):
-        """If the DTD is read from a file, _path stores that file's path"""
+        # If the DTD is read from a file, _path stores that file's path
         self._path = ""
-        """Contains the DTD as a string before being parsed"""
+
+        # Contains the DTD as a string before being parsed
         self._content = ""
-        """Dictionary of <element, parent-count>; parent-count is the number of parents an element has """
+
+        # Dictionary of <element, parent-count>; parent-count is
+        # the number of parents an element has
         self._parents_count = dict()
-        """List of all DTD tags, be it element or attribute tag"""
+
+        # List of all DTD tags, be it element or attribute tag
         self._tokens = []
-        """Dictionary of <element-name, attribute-list>; attribute-list is a list storing all attributes, which
-        belong to element-name"""
+
+        # Dictionary of <element-name, attribute-list>;
+        # attribute-list is a list storing all attributes, which
+        # belong to element-name
         self.attributes = dict()
-        """Dictionary of <element-name, element-children>; element-children is a tree whose node is a DTDElement obj"""
+
+        # Dictionary of <element-name, element-children>;
+        # element-children is a tree whose node is a DTDElement obj
         self.elements = dict()
 
     def parse_file(self, path) -> None:
@@ -312,7 +329,7 @@ class DTDParser:
         """
         self._validate_content()
 
-        "xml_tags_regex matches every XML tag separately"
+        # xml_tags_regex matches every XML tag separately
         xml_tags_regex = r'<.*?>'
         self._tokens = re.findall(xml_tags_regex, self._content)
 
@@ -334,7 +351,8 @@ class DTDParser:
             elif token.startswith(DTD_COMMENT_PREFIX):
                 pass
             else:
-                raise ValueError("The content of file {} is invalid. Invalid token found: {}".format(self._path, token))
+                raise ValueError("The content of file {} is invalid. Invalid token found: {}"
+                                 .format(self._path, token))
 
     def _validate_content(self) -> None:
         """
@@ -347,7 +365,7 @@ class DTDParser:
         if self._content == "":
             raise ValueError("There is no content to parse from file {}".format(self._path))
 
-        """xml_file_regex matches a string consisting of xml tags"""
+        # xml_file_regex matches a string consisting of xml tags
         xml_file_regex = r'^\s*<(.*?>\s*<)*.*?>\s*$'
         if not re.match(xml_file_regex, self._content):
             raise ValueError("The content of file {} is invalid DTD".format(self._path))
@@ -382,7 +400,8 @@ class DTDParser:
         :param token: string representing a DTD attribute, e.g. <!ATTLIST ...>
         """
         element_name, token_after_element_name = _get_element_name_from_token(token)
-        attribute_name, token_after_attribute_name = _get_attribute_name_from_token(token_after_element_name)
+        attribute_name, token_after_attribute_name = \
+            _get_attribute_name_from_token(token_after_element_name)
 
         if token_after_attribute_name.startswith('('):
             attribute = _parse_enumerated_attribute(token_after_attribute_name)
@@ -425,13 +444,15 @@ class DTDParser:
 
         return root
 
-    def _generate_children_tree_from_child_tokens(self, root: DTDElement, child_tokens: list) -> DTDElement:
+    def _generate_children_tree_from_child_tokens(self, root: DTDElement,
+                                                  child_tokens: list) -> DTDElement:
         """
         Given a root DTD element, which represents the outermost parentheses of
         a child-element list, and the parsed children list to child-tokens -
         Generate a tree of children (DTDElement objects) which represents the hierarchy of elements
         under the parent element.
-        :param root: The root of the DTD children, represents the opening and closing parentheses ( )
+        :param root: The root of the DTD children,
+            represents the opening and closing parentheses ( )
         :param child_tokens: List of child-tokens, either a child element name or + ? * ( )
         :return: returns tree with the root with the children added to it
         """
