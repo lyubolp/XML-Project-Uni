@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import DataRequired
 from wtforms import SubmitField, StringField, RadioField
 from src.consts import IMAGE_LITERAL, TEXT_LITERAL, HEADER_TEXT_IMAGE_REQUEST_LITERAL,\
-    HEADER_IMAGE_REQUEST_LITERAL, HEADER_TEXT_REQUEST_LITERAL
+    HEADER_IMAGE_REQUEST_LITERAL, HEADER_TEXT_REQUEST_LITERAL, NO_WIKI
 
 
 class FileUploadForm(FlaskForm):
@@ -20,6 +20,7 @@ class FileUploadForm(FlaskForm):
                                        (HEADER_TEXT_IMAGE_REQUEST_LITERAL,
                                         'Вземи заглавията на секциите, текста и изображенията'),
                                        (TEXT_LITERAL, 'Вземи само текста'),
-                                       (IMAGE_LITERAL, 'Вземи само изображенията')],
+                                       (IMAGE_LITERAL, 'Вземи само изображенията'),
+                                       (NO_WIKI, 'Не използвай Wikipedia')],
                               default=1)
     submit = SubmitField('Генериране')

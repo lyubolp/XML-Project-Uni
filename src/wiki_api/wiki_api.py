@@ -21,6 +21,7 @@ class RequestType(Enum):
     HEADER_TEXT_IMAGE = 3
     TEXT = 4
     IMAGE = 5
+    NONE = 6
 
 
 class WikiAPI:

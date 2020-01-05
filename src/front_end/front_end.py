@@ -9,7 +9,7 @@ from src.wiki_api.wiki_api import WikiAPI, Content, RequestType
 from src.xml_generator.xml_generator import XMLGenerator
 from src.xml_document.xml_document import XMLDocument, IncompatibleException
 from src.consts import HEADER_TEXT_REQUEST_LITERAL, HEADER_IMAGE_REQUEST_LITERAL, \
-    HEADER_TEXT_IMAGE_REQUEST_LITERAL, TEXT_LITERAL, IMAGE_LITERAL
+    HEADER_TEXT_IMAGE_REQUEST_LITERAL, TEXT_LITERAL, IMAGE_LITERAL, NO_WIKI
 from .file_upload_form import FileUploadForm
 
 
@@ -52,6 +52,8 @@ def __convert_request_literal_to_enum(request_literal: str) -> RequestType:
         return RequestType.TEXT
     elif request_literal == IMAGE_LITERAL:
         return RequestType.IMAGE
+    elif request_literal == NO_WIKI:
+        return RequestType.NONE
     else:
         raise ValueError("Invalid request type. Valid RequestType is: HEADER_TEXT, HEADER_IMAGE, "
                          "HEADER_TEXT_IMAGE, TEXT or IMAGE")
@@ -76,10 +78,12 @@ def index():
         xml_generate = XMLGenerator(parser)
 
         xml_document: XMLDocument = xml_generate.generate_xml()
-        wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
+        if request_type is not RequestType.NONE:
+            wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
 
         try:
-            xml_document.fill_content(wiki_content)
+            if request_type is not RequestType.NONE:
+                xml_document.fill_content(wiki_content)
         except IncompatibleException:
             return 'Това DTD не отговаря на Wikipedia статия'
 
