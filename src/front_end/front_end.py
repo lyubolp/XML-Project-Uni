@@ -12,7 +12,6 @@ from src.consts import HEADER_TEXT_REQUEST_LITERAL, HEADER_IMAGE_REQUEST_LITERAL
     HEADER_TEXT_IMAGE_REQUEST_LITERAL, TEXT_LITERAL, IMAGE_LITERAL, NO_WIKI
 from .file_upload_form import FileUploadForm
 
-
 APP = Flask(__name__)
 APP.config.from_object(Config)
 
@@ -81,7 +80,10 @@ def index():
 
         xml_document: XMLDocument = xml_generate.generate_xml()
         if request_type is not RequestType.NONE:
-            wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
+            try:
+                wiki_content = get_content(file_upload_form.wiki_article_name.data, request_type)
+            except KeyError:
+                return 'Не съществува такава страница в Wikipedia'
 
         try:
             if request_type is not RequestType.NONE:
@@ -92,4 +94,5 @@ def index():
         return render_template('xml_edit.html', project_name='Генериране на XML по DTD и статия в Wikipedia',
                                xml_to_edit=xml_document.to_string())
 
-    return render_template('index.html', project_name='Генериране на XML по DTD и статия в Wikipedia', form=file_upload_form)
+    return render_template('index.html', project_name='Генериране на XML по DTD и статия в Wikipedia',
+                           form=file_upload_form)
