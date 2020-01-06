@@ -72,6 +72,8 @@ def index():
         dtd_string = file_handle.read()
 
         request_type = __convert_request_literal_to_enum(file_upload_form.request_type.data)
+        if file_upload_form.wiki_article_name.data == '' and request_type is not RequestType.NONE:
+            return 'Не е възможно да се направи заявка за wikipedia без име на статия'
 
         parser = DTDParser()
         parser.parse_string(dtd_string.decode('utf-8'))
