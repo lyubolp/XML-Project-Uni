@@ -3,7 +3,7 @@ from src.dtd_parser.dtd_parser import DTDParser
 from src.project_path.project_path import ProjectPath
 
 
-class TestDTDParserReadFileContent(unittest.TestCase):
+class TestDTDParserFindRoot(unittest.TestCase):
     def setUp(self) -> None:
         self.dataPath = ProjectPath.get_project_data_dtd_path()
 
