@@ -34,17 +34,38 @@ https://imgur.com/rjh86MX
 
 https://imgur.com/NrSWhrN
 
-## Осигуряване на пълно покритие на входните данни
+## Achieving full data coverage
 
-За да се осигури, че не само сме тествали всички възможни методи в програмата, а и всички възможни входове сме разделили входа на класове на еквивалентност, които да покриват всички възможни входове. Тъй като програмата работи със файлове/стрингове, които трябва да представляват валидни DTD документи, най-общо разделянето на класове на еквивалентност може да е: несъществуващ файл, празен файл, файл с невалидни данни, файл с частично валидни данни, файл с напълно валидни данни. Това разделение важи и когато входа е string, а не файл. Отделно за тестването на функционалности може да разделим тези класове на еквивалентност на още повече класове. Например горните класове на еквивалентност са важни за нас, когато четен файл/стринг и трябва да вземем съдържанието. След като имаме съдържанието и сме проверили, че е валидно, попадаме в случая файл с напълно валидни данни. За да продължим тестването/изпълнението на програмата валидните данни могат да бъдат разделени в смисъла на DTD на 1 елемент, 1 елемент и 1 атрибут, множество елементи, множество елементи и множество атрибути и т.н.
+To make sure that we have tested every possible functionality and all possible input for the application we split the input into equivalence classes, which cover all the possible inputs the program can get. Because our program works with files/strings, which must represent valid DTD documents, in general we have the following equivalence classes:
 
-## Осигуряване на пълно покритие на кода
+- file, which doesn't exist
+- empty file
+- file with invalid data
+- file with partially valid data
+- file with completely valid data
 
-За осигуряване, че максимална част от кода е тестван използвахме coverage.py, за да генерираме информация кои редове от кода са тествани и кои не.
+These classes also apply when the input is a string, because the first thing our program does is read the file to a string. Furthermore, to test certain a functionality we need to split these equivalence classes into sub-classes.  For example the above equivalence classes are important when reading a file/string. However after we have the string and we make sure it is from the class with completely valid data, we have to continue more specific testing, in particular - splitting the data into valid tags (DTD element/attribute tags). This means that the class 'completely valid data' can be split even more into:
+
+- 1 DTD element
+- 1 DTD attribute
+- 1 element and 1 attribute
+- multiple elements and 1 attribute
+- 1 element and multiple attributes
+- multiple elements and multiple attributes
+
+and so on.
+
+This way on each level of the call-stack we split the tests into different classes to make sure every possible input to that level is tested.
+
+## Achieving full code coverage
+
+To make sure the program has full code coverage, we have used **coverage.py**, to generate information about the lines which are covered by the tests and which aren't.
 
 Code coverage results: https://qa-xml-coverage.netlify.com/
 
-## Заключение
+## Conclusion
+
+All functionalities necessary for the project to function properly have been extensively tested. Some functionalities, which are not used by the project are left untested, however these functionalities are only there to complete the API of certain classes/interfaces of the program. This way we achieve 100% code coverage for the application and 90% code coverage for the code as a whole.
 
 Всички функционалности необходими на проекта да работи и всички функционалности, които проектът използва са тествани. Някой функционалности, които не се използват са оставени нетествани, но те съществуват, за да имат пълнота интерфейсите на софтуера. По този начин постигаме 100% покритие на проекта с тестове и 90% покритие на кода.
 
