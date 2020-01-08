@@ -453,4 +453,24 @@ All functionalities necessary for the project to function properly have been ext
 | 2                      | Try to read file 14elements_2attributes.dtd                  | The file 14elements_2attributes.dtd is read into the object memory |
 | 3                      | Verify the root's name is "Course_Catalog"                   | The root's name is "Course_Catalog"                          |
 
-##### 
+#### test_parse_string
+
+##### test_1element
+
+| Description            | Test parsing DTD file string                        |                                             |
+| ---------------------- | --------------------------------------------------- | ------------------------------------------- |
+| **Initial conditions** | None                                                |                                             |
+| **Test step**          | **Description**                                     | **Expected result**                         |
+| 1                      | Create DTD parser object                            | A new DTD parser object is created          |
+| 2                      | Try to parse the string "<!ELEMENT note (#PCDATA)>" | The string is loaded into the object memory |
+| 3                      | Verify the elements and attributes count is 1       | The elements and attributes count is 1      |
+
+##### test_1element_1attribute
+
+| Description            | Test parsing DTD file string                                 |                                             |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------- |
+| **Initial conditions** | None                                                         |                                             |
+| **Test step**          | **Description**                                              | **Expected result**                         |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created          |
+| 2                      | Try to parse the string "<!ELEMENT square EMPTY><!ATTLIST square width CDATA "0">" | The string is loaded into the object memory |
+| 3                      | Verify the elements and attributes count is 2                | The elements and attributes count is 2      |
