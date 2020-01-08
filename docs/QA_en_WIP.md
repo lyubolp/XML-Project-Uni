@@ -474,3 +474,38 @@ All functionalities necessary for the project to function properly have been ext
 | 1                      | Create DTD parser object                                     | A new DTD parser object is created          |
 | 2                      | Try to parse the string "<!ELEMENT square EMPTY><!ATTLIST square width CDATA "0">" | The string is loaded into the object memory |
 | 3                      | Verify the elements and attributes count is 2                | The elements and attributes count is 2      |
+
+### wiki_api
+
+#### test_wiki_api
+
+##### test_get_text
+
+| Description            | Test getting the text from an Wikipedia article              |                                                           |
+| ---------------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
+| **Initial conditions** | None                                                         |                                                           |
+| **Test step**          | **Description**                                              | **Expected result**                                       |
+| 1                      | Send a request for the needed article                        | A `Content` object is created in the memory               |
+| 2                      | Verify that the content is split correctly and the content is accurate | The content is split correctly and the content is accurate |
+
+##### test_get_text_header 
+
+| Description            | Test getting the text and headers from an Wikipedia article |                                             |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| **Initial conditions** | None                                                        |                                             |
+| **Test step**          | **Description**                                             | **Expected result**                         |
+| 1                      | Send a request for the needed article                       | A `Content` object is created in the memory |
+| 2                      | Verify that the content is split correctly                  | The content is split correctly              |
+| 3                      | Verify that the content type is correct                     | The content type is correct                 |
+| 4                      | Verify that the content is accurate                         | The content is accurate                                          |
+
+##### test_get_text_header 
+
+| Description            | Test getting the text, headers and image from an Wikipedia article |                                             |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| **Initial conditions** | None                                                        |                                             |
+| **Test step**          | **Description**                                             | **Expected result**                         |
+| 1                      | Send a request for the needed article                       | A `Content` object is created in the memory |
+| 2                      | Verify that the content is split correctly                  | The content is split correctly              |
+| 3                      | Verify that the content type is correct                     | The content type is correct                 |
+| 4                      | Verify that the content is accurate                         | The content is accurate                     |
