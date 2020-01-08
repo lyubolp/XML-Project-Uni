@@ -509,3 +509,113 @@ All functionalities necessary for the project to function properly have been ext
 | 2                      | Verify that the content is split correctly                  | The content is split correctly              |
 | 3                      | Verify that the content type is correct                     | The content type is correct                 |
 | 4                      | Verify that the content is accurate                         | The content is accurate                     |
+
+### test_xml_generator
+
+#### test_1element
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                      |
+| ---------------------- | ------------------------------------------------------ | ---------------------------------------------------- |
+| **Initial conditions** | None                                                   |                                                      |
+| **Test step**          | **Description**                                        | **Expected result**                                  |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                   |
+| 2                      | Read the file 1element.dt                              | The file 1element.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                   |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<note />`                |
+| 6                      | Verify that the root tag of the XML is 'note'          | The root tag of the XML is 'note'                    |
+#### test_2nested_elements
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 2nested_elements.dtd                     | The file 2nested_elements.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<note><heading /></note>`        |
+
+#### test_1element_1attribute
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 1element_1attribute.dtd                  | The file 1element_1attribute.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<square width="0" />`            |
+
+#### test_5nested_elements
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 5nested_elements.dtd                     | The file 5nested_elements.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<note><to /><from /><heading /><body /></note>` |
+
+#### test_1element_6attributes
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 1element_6attributes.dtd                 | The file 1element_6attributes.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<square width="0" number="" fax="" company="Microsoft" type="cash"title="Mr or Mrs" />` |
+
+#### test_11elements_6attributes
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 11elements_6attributes.dtd               | The file 11elements_6attributes.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<Course_Catalog Year="2017-2018"><Department Code=""><Title '/><Course Number=""><Title /><Description><Courseref Number=""/></Description></Course><Lecturer InstrID=""><First_Name/><Middle_Initial /><Last_Name/></Lecturer></Department></Course_Catalog>` |
+
+#### test_9elements_3attributes
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 9elements_3attributes.dtd                | The file 9elements_3attributes.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<games><game score=""><home-team /><ex-team /><scores><score time="" type=""><player /></score></scores><yellows><player/></yellows><reds><player /></reds></game></games>` |
+
+#### test_14elements_2attributes
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file 14elements_2attributes.dtd               | The file 14elements_2attributes.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<Course_Catalog><Department Code=""><Title '<br/>                                                '/><Chair><Professor><First_Name /><Middle_Initial /><Last_Name '<br/>                                                '/></Professor></Chair><Course CourseNumber=""><Title /><Description '<br/>                                                '/><Instructors><Lecturer><First_Name /><Middle_Initial /><Last_Name '<br/>                                                '/></Lecturer><Professor><First_Name /><Middle_Initial /><Last_Name '<br/>                                                '/></Professor></Instructors><Prerequisites><Prereq '<br/>                                                '/></Prerequisites></Course></Department></Course_Catalog>` |
+
+#### test_nested_child_elements
+
+| Description            | Test generating an XML tree based on a DTD file        |                                                              |
+| ---------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                   |                                                              |
+| **Test step**          | **Description**                                        | **Expected result**                                          |
+| 1                      | Create DTD parser object                               | A new DTD parser object is created                           |
+| 2                      | Read the file nested_child_elements.dtd                | The file nested_child_elements.dtd is read into the object memory |
+| 3                      | Create XML generator object                            | An XML generator object is created                           |
+| 4                      | Generate xml                                           | Generates an XML file based on the DTD parser object         |
+| 5                      | Verify that the XML converted to string is as expected | The XML string is equal to `<D><A /><B /><C /></D>`          |
