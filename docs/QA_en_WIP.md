@@ -389,3 +389,16 @@ All functionalities necessary for the project to function properly have been ext
 | **Test step**          | **Description**                               | **Expected result**                |
 | 1                      | Create DTD parser object                      | A new DTD parser object is created |
 | 2                      | Try to read file invalid_element_children.dtd | The parser throws a `ValueError`   |
+
+#### test_root_finding
+
+##### test_no_root
+
+| Description            | Test parsing DTD file with no root |                                    |
+| ---------------------- | ---------------------------------- | ---------------------------------- |
+| **Initial conditions** | None                               |                                    |
+| **Test step**          | **Description**                    | **Expected result**                |
+| 1                      | Create DTD parser object           | A new DTD parser object is created |
+| 2                      | Try to read file no_root.dtd       | The parser throws a `ValueError`   |
+
+##### 
