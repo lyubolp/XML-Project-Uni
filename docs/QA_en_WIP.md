@@ -369,3 +369,23 @@ All functionalities necessary for the project to function properly have been ext
 | 2                      | Read file 11elements_6attributes.dtd                         | The file 11elements_6attributes.dtd is read into the object memory |
 | 3                      | Verify the parsed object has 11 elements                     | The parsed object has 11 elements                            |
 | 4                      | Verify the parser has 6 attributes in total                  | The parser has 6 attributes in total                         |
+
+#### test_parse_tokens_exceptions
+
+##### test_non_dtd_tags
+
+| Description            | Test parsing invalid DTD tokens    |                                    |
+| ---------------------- | ---------------------------------- | ---------------------------------- |
+| **Initial conditions** | None                               |                                    |
+| **Test step**          | **Description**                    | **Expected result**                |
+| 1                      | Create DTD parser object           | A new DTD parser object is created |
+| 2                      | Try to read file invalid_token.dtd | The parser throws a `ValueError`   |
+
+##### test_invalid_element_children
+
+| Description            | Test parsing invalid DTD children elements    |                                    |
+| ---------------------- | --------------------------------------------- | ---------------------------------- |
+| **Initial conditions** | None                                          |                                    |
+| **Test step**          | **Description**                               | **Expected result**                |
+| 1                      | Create DTD parser object                      | A new DTD parser object is created |
+| 2                      | Try to read file invalid_element_children.dtd | The parser throws a `ValueError`   |
