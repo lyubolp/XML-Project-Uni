@@ -266,3 +266,55 @@ All functionalities necessary for the project to function properly have been ext
 | 1                      | Create DTD parser object                                     | A new DTD parser object is created                          |
 | 2                      | Read file 1element.dtd                                       | The file 1element.dtd is read into the object memory        |
 | 3                      | Verify the parser has generated 1 element                    | The parser has parsed 1 element and has ignored the comment |
+
+##### test_1complex_element
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with 1 complex DTD element |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file 1complex_element.dtd                               | The file 1complex_element.dtd is read into the object memory |
+| 3                      | Verify the element note has 3 sub-element                    | The element note has 3 sub-element                           |
+| 4                      | Verify the element note has empty element-name               | The element note has empty string for an element-name        |
+| 5                      | Verify the element note's first child has name "Title"       | The element note's first child element is "Title"            |
+| 6                      | Verify the element note's first child occurs only once       | The element note's first child occurs only once              |
+| 7                      | Verify the element note's first child has no sub-elements    | The element note's first child element has no sub-elements   |
+| 8                      | Verify the element note's second child has name "Course"     | The element note's second child element is "Course"          |
+| 9                      | Verify the element note's second child occurs one or more times | The element note's second child occurs one or more times     |
+| 10                     | Verify the element note's second child has no sub-elements   | The element note's second child element has no sub-elements  |
+| 11                     | Verify the element note's third child has name "Lecturer"    | The element note's third child element is "Lecturer"         |
+| 12                     | Verify the element note's third child occurs zero or more times | The element note's third child occurs zero or more times     |
+| 13                     | Verify the element note's third child has no sub-elements    | The element note's third child element has no sub-elements   |
+
+##### test_nested_child_elements
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with nested child DTD elements |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file nested_child_elements.dtd                          | The file nested_child_elements.dtd is read into the object memory |
+| 3                      | Verify the element note has 2 sub-elements                   | The element note has 2 sub-elements                          |
+| 4                      | Verify the element note has empty element-name               | The element note has empty string for an element-name        |
+| 5                      | Verify the element note occurs one more mote times.          | The element note occurs one more mote times.                 |
+| 6                      | Verify the element note's first child has name "A"           | The element note's first child element is "A"                |
+| 7                      | Verify the element note's first child occurs zero or one time | The element note's first child occurs zero or one time       |
+| 8                      | Verify the element note's first child has no sub-elements    | The element note's first child element has no sub-elements   |
+| 8                      | Verify the element note's second child has two sub-elements  | The element note's second child has two sub-elements         |
+| 9                      | Verify the element note's second child occurs zero or one time | The element note's second child occurs zero or one time      |
+| 10                     | Verify the element note's second child has empty element-name | The element note's second child has empty element-name       |
+| 11                     | Verify the element note's second child's first sub-element has name "B" | The element note's second child's first sub-element has name "B" |
+| 12                     | Verify the element note's second child's first sub-element occurs one or mote times | The element note's second child's first sub-element occurs one or mote times |
+
+##### test_complex_elements
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with complex DTD elements |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file complex_elements.dtd                               | The file complex_elements.dtd is read into the object memory |
+| 3                      | Verify the element with name "Course_Catalog" has 1 sub-element | The element with name "Course_Catalog" has 1 sub-element     |
+| 4                      | Verify the element with name "Department" has 3 sub-elements | The element with name "Department" has 3 sub-elements        |
+| 5                      | Verify the element with name "game" has 2 sub-elements       | The element with name "game" has 2 sub-elements              |
