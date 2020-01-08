@@ -401,4 +401,56 @@ All functionalities necessary for the project to function properly have been ext
 | 1                      | Create DTD parser object           | A new DTD parser object is created |
 | 2                      | Try to read file no_root.dtd       | The parser throws a `ValueError`   |
 
+#### test_root_finding_exceptions
+
+##### test_1element
+
+| Description            | Test parsing DTD file and getting the root |                                                      |
+| ---------------------- | ------------------------------------------ | ---------------------------------------------------- |
+| **Initial conditions** | None                                       |                                                      |
+| **Test step**          | **Description**                            | **Expected result**                                  |
+| 1                      | Create DTD parser object                   | A new DTD parser object is created                   |
+| 2                      | Try to read file 1element.dtd              | The file 1element.dtd is read into the object memory |
+| 3                      | Verify the root's name is "note"           | The root's name is "note"                            |
+
+##### test_2nested_elements
+
+| Description            | Test parsing DTD file with 2 nested elements and getting the root |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Try to read file 2nested_elements.dtd                        | The file 2nested_elements.dtd is read into the object memory |
+| 3                      | Verify the root's name is "note"                             | The root's name is "note"                                    |
+
+##### test_11elements_6attributes
+
+| Description            | Test parsing DTD file with 11 elements, 6 attributes and getting the root |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Try to read file 11elements_6attributes.dtd                  | The file 11elements_6attributes.dtd is read into the object memory |
+| 3                      | Verify the root's name is "Course_Catalog"                   | The root's name is "Course_Catalog"                          |
+
+##### test_9elements_3attributes
+
+| Description            | Test parsing DTD file with 9 elements, 3 attributes and getting the root |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Try to read file 9elements_3attributes.dtd                   | The file 9elements_3attributes.dtd is read into the object memory |
+| 3                      | Verify the root's name is "games"                            | The root's name is "games"                                   |
+
+##### test_14elements_2attributes
+
+| Description            | Test parsing DTD file with 14 elements, 2 attributes and getting the root |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Try to read file 14elements_2attributes.dtd                  | The file 14elements_2attributes.dtd is read into the object memory |
+| 3                      | Verify the root's name is "Course_Catalog"                   | The root's name is "Course_Catalog"                          |
+
 ##### 
