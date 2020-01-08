@@ -318,3 +318,54 @@ All functionalities necessary for the project to function properly have been ext
 | 3                      | Verify the element with name "Course_Catalog" has 1 sub-element | The element with name "Course_Catalog" has 1 sub-element     |
 | 4                      | Verify the element with name "Department" has 3 sub-elements | The element with name "Department" has 3 sub-elements        |
 | 5                      | Verify the element with name "game" has 2 sub-elements       | The element with name "game" has 2 sub-elements              |
+
+#### test_parse_tokens_attributes
+
+##### test_1element
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with 1 DTD element and 0 attributes |                                                      |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| **Initial conditions** | None                                                         |                                                      |
+| **Test step**          | **Description**                                              | **Expected result**                                  |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                   |
+| 2                      | Read file 1element.dtd                                       | The file 1element.dtd is read into the object memory |
+| 3                      | Verify the parsed object has 1 element                       | The parsed object has 1 element                      |
+
+##### test_1element_1attribute
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with 1 DTD element and 1 DTD attribute |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file 1element_1attribute.dtd                            | The file 1element_1attribute.dtd is read into the object memory |
+| 3                      | Verify the parsed object has 1 element                       | The parsed object has 1 element                              |
+| 4                      | Verify the parser has 1 attribute in total                   | The parser has 1 attribute in total                          |
+| 5                      | Verify the element's first attribute has name "width"        | The element's first attribute has name "width"               |
+| 6                      | Verify the element's first attribute has value "0"           | Тhe element's first attribute has value "0"                  |
+| 7                      | Verify the element's first attribute is of CDATA type        | The element's first attribute is of CDATA type               |
+| 8                      | Verify the element's first attribute's value is of VALUE type | The element's first attribute's value is of VALUE type       |
+
+##### test_9elements_3attributes
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with 9 DTD elements and 3 DTD attributes |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file 9elements_3attributes.dtd                          | The file 9elements_3attributes.dtd is read into the object memory |
+| 3                      | Verify the parsed object has 9 elements                      | The parsed object has 9 elements                             |
+| 4                      | Verify the parser has 3 attributes in total                  | The parser has 3 attributes in total                         |
+| 5                      | Verify the first attribute with name "game" has a value type "REQUIRED" | The first attribute with name "game" has a value type "REQUIRED" |
+| 6                      | Verify the attributes with name "score" are 2                | Тhe attributes with name "score" are 2                       |
+
+##### test_11elements_6attributes
+
+| Description            | Test parsing the DTD tokens to DTD objects from a file with 11 DTD elements and 6 DTD attributes |                                                              |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Initial conditions** | None                                                         |                                                              |
+| **Test step**          | **Description**                                              | **Expected result**                                          |
+| 1                      | Create DTD parser object                                     | A new DTD parser object is created                           |
+| 2                      | Read file 11elements_6attributes.dtd                         | The file 11elements_6attributes.dtd is read into the object memory |
+| 3                      | Verify the parsed object has 11 elements                     | The parsed object has 11 elements                            |
+| 4                      | Verify the parser has 6 attributes in total                  | The parser has 6 attributes in total                         |
