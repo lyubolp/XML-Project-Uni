@@ -11,7 +11,7 @@ class FileUploadForm(FlaskForm):
     The file upload form, which is used to get the DTD file, the wiki article and the request type
     """
     dtd = FileField(validators=[FileRequired()])
-    wiki_article_name = StringField('Name', validators=[DataRequired()])
+    wiki_article_name = StringField('Name')
     request_type = RadioField('Изберете каква информация да се вземе',
                               choices=[(HEADER_TEXT_REQUEST_LITERAL,
                                         'Вземи заглавията на секциите и текста'),
