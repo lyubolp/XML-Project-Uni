@@ -11,8 +11,6 @@ This project includes a DTD parser and an XML generator which can use the parsed
 3. Install the required packages `pip install -r requirements.txt`
 4. Run the server `./run.sh`
 5. Open your browser and go to http://127.0.0.1:5000/
-6. Open a DTD file and optionally select a wiki article by name
-7. Click the Generate button
 
 ## Examples
 ### Generate DTD and parse info from wikipedia
